@@ -7,12 +7,12 @@ imshow(M); % muestra la imagen
 
 % punto 2
 M_espejo=M(:,end:-1:1,:); % invierte el orden de las columnas
-%figure(); % crea una nueva figura
+figure(2); % crea una nueva figura
 imshow(M_espejo); 
 
 % punto 3
 M_volt=M(end:-1:1,:,:); % invierte el orden de las filas
-%figure();
+figure(3);
 imshow(M_volt);
 
 % punto 4
@@ -24,7 +24,7 @@ M_d(:,:,1)=M_gris; %\
 M_d(:,:,2)=M_gris; % > carga el mismo valor en R, G y B
 M_d(:,:,3)=M_gris; %/
 M_u8=uint8(M_d); % convierte a entero sin signo
-%figure();
+figure(4);
 imshow(M_u8);
 
 % punto 5
@@ -37,14 +37,14 @@ M_ojo(1,:,1)=255;   % \
 M_ojo(end,:,1)=255; %   >  pone en rojo la primera y ultima, fila y columna
 M_ojo(:,1,1)=255;   %  |
 M_ojo(:,end,1)=255; % /
-%figure();
+figure(5);
 imshow(M_ojo);
 
 % punto 6
-M_GBR(:,:,1)=M(:,:,2);
-M_GBR(:,:,2)=M(:,:,3);
-M_GBR(:,:,3)=M(:,:,1);
-%figure();
+M_GBR(:,:,1)=M(:,:,2); % Carga el canal G en el canal R de la nueva imagen
+M_GBR(:,:,2)=M(:,:,3); % Carga el canal B en el canal G de la nueva imagen
+M_GBR(:,:,3)=M(:,:,1); % Carga el canal R en el canal B de la nueva imagen
+figure(6);
 imshow(M_GBR);
 
 
