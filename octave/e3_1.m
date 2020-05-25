@@ -40,6 +40,15 @@ M_ojo(:,end,1)=255; % /
 %figure();
 imshow(M_ojo);
 
+% punto 6
+M_GBR(:,:,1)=M(:,:,2);
+M_GBR(:,:,2)=M(:,:,3);
+M_GBR(:,:,3)=M(:,:,1);
+%figure();
+imshow(M_GBR);
+
+
+
 
 
 
