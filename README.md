@@ -1,2 +1,2 @@
 # Técnicas Digitales 3
-Trabajos prácticos en Octave (guia 4...)
+Trabajos prácticos en Octave (guia 3...)
