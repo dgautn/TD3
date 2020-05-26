@@ -2,12 +2,12 @@
 
 % punto 1
 M=imread('lena.tiff'); %lee la imagen
-[F,C,cl]=size(M) % devuelve el tamaño de cada dimension. fila, columna, RGB.
-imshow(M); % muestra la imagen
+[F,C,cl]=size(M)       % devuelve el tamaño de cada dimension. fila, columna, RGB.
+imshow(M);             % muestra la imagen
 
 % punto 2
 M_espejo=M(:,end:-1:1,:); % invierte el orden de las columnas
-figure(2); % crea una nueva figura
+figure(2);                % crea una nueva figura
 imshow(M_espejo); 
 
 % punto 3
@@ -16,36 +16,30 @@ figure(3);
 imshow(M_volt);
 
 % punto 4
-M_d=double(M); % convierte los datos a tipo flotante
-M_gris=M_d(:,:,1).+M_d(:,:,2).+M_d(:,:,3); % suma el valor de R+G+B para cada elemento
-M_gris=M_gris./3; % divide para obtener el promedio
-%[a,b,c]=size(M_gris) %la matriz resultante es de 2 dimensiones
-M_d(:,:,1)=M_gris; %\
-M_d(:,:,2)=M_gris; % > carga el mismo valor en R, G y B
-M_d(:,:,3)=M_gris; %/
-M_u8=uint8(M_d); % convierte a entero sin signo
+M_d=double(M);  % convierte los datos a tipo flotante
+M_gris=(M_d(:,:,1)+ M_d(:,:,2)+ M_d(:,:,3))/3; % suma el valor de R+G+B para cada elemento
+                                               % y divide para obtener el promedio
+                                               %la matriz resultante es de 2 dimensiones
+M_d=M_gris;
+M_u8=uint8(M_d);   % convierte a entero sin signo
 figure(4);
 imshow(M_u8);
 
 % punto 5
-M_ojo=M(250:285,245:290,:); % recorta la imagen
-M_ojo(1,:,:)=0;   % \
-M_ojo(end,:,:)=0; %   >  borra la primera y ultima, fila y columna
-M_ojo(:,1,:)=0;   %  |
-M_ojo(:,end,:)=0; % /
-M_ojo(1,:,1)=255;   % \
-M_ojo(end,:,1)=255; %   >  pone en rojo la primera y ultima, fila y columna
-M_ojo(:,1,1)=255;   %  |
-M_ojo(:,end,1)=255; % /
+M_ojo(:,:,1) = uint8(255*ones(40,65,1));     % crea capa roja al 100%
+M_ojo(:,:,2:3) = uint8(255*zeros(40,65,2));  % crea capas verde y azul al 0%
+M_ojo(3:37,3:62,1)=M(253:287,238:297,1);     %Copia porcion de la imagen en canal rojo
+M_ojo(3:37,3:62,2:3)=M(253:287,238:297,2:3); %Copia porcion en canales verde y azul
 figure(5);
-imshow(M_ojo);
+imshow(M_ojo); 	
+
 
 % punto 6
-M_GBR(:,:,1)=M(:,:,2); % Carga el canal G en el canal R de la nueva imagen
-M_GBR(:,:,2)=M(:,:,3); % Carga el canal B en el canal G de la nueva imagen
-M_GBR(:,:,3)=M(:,:,1); % Carga el canal R en el canal B de la nueva imagen
+m=[2 3 1];
+M_GBR(:,:,:)=M(:,:,m);
 figure(6);
 imshow(M_GBR);
+
 
 
 
