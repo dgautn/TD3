@@ -17,10 +17,9 @@ imshow(M_volt);
 
 % punto 4
 M_d=double(M);  % convierte los datos a tipo flotante
-M_gris=(M_d(:,:,1)+ M_d(:,:,2)+ M_d(:,:,3))/3; % suma el valor de R+G+B para cada elemento
+M_d=(M_d(:,:,1)+ M_d(:,:,2)+ M_d(:,:,3))/3; % suma el valor de R+G+B para cada elemento
                                                % y divide para obtener el promedio
                                                %la matriz resultante es de 2 dimensiones
-M_d=M_gris;
 M_u8=uint8(M_d);   % convierte a entero sin signo
 figure(4);
 imshow(M_u8);
@@ -41,8 +40,7 @@ figure(6);
 imshow(M_GBR);
 
 
-
-
-
-
-
+%punto 7
+M_bc = brillo_contraste(M,0.3,0.9); %ajusta el brillo al 30% y el contraste al 90%
+figure(7);
+imshow(M_bc);
