@@ -25,10 +25,15 @@ figure(4);
 imshow(M_u8);
 
 % punto 5
-M_ojo(:,:,1) = uint8(255*ones(40,65,1));     % crea capa roja al 100%
-M_ojo(:,:,2:3) = uint8(255*zeros(40,65,2));  % crea capas verde y azul al 0%
-M_ojo(3:37,3:62,1)=M(253:287,238:297,1);     %Copia porcion de la imagen en canal rojo
-M_ojo(3:37,3:62,2:3)=M(253:287,238:297,2:3); %Copia porcion en canales verde y azul
+M_ojo=M(250:285,245:290,:); % recorta la imagen
+M_ojo(1,:,:)=0;   % \
+M_ojo(end,:,:)=0; %   >  borra la primera y ultima, fila y columna
+M_ojo(:,1,:)=0;   %  |
+M_ojo(:,end,:)=0; % /
+M_ojo(1,:,1)=255;   % \
+M_ojo(end,:,1)=255; %   >  pone en rojo la primera y ultima, fila y columna
+M_ojo(:,1,1)=255;   %  |
+M_ojo(:,end,1)=255; % /
 figure(5);
 imshow(M_ojo); 	
 
