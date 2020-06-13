@@ -1,4 +1,4 @@
-% <------- Ejercicio 1 ----------->
+% <------- Guia 3 - Ejercicio 1 ----------->
 
 % punto 1
 M=imread('lena.tiff'); %lee la imagen
