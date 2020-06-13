@@ -30,7 +30,7 @@ end
 
 % punto 2
 
-x2 = randn(1,7)% nueva secuencia de 7 elementos
+x2 = randn(1,7);% nueva secuencia de 7 elementos
 M2 = length(x2); % longitud e la secuencia de entrada
 y2 = zeros(1, N+M2-1); % vector resultado
 r_des = zeros(1, N); % reinicializa el registro de desplazamiento
@@ -44,11 +44,9 @@ for n=1 : M2+N-1
 end
 
 figure(2);
-stem(y2,'filled') % graficas de secuencias
-y2
-% modificaciones para los ejes
-axis off;
-for l=1 : M2+N-1
-  text (l, y2(l), mat2str(y2(l),3),'horizontalalignment','right','verticalalignment','bottom')
-  text (l, 0,  int2str(l),'verticalalignment','top')
-end
+
+plot(y2,'o-') % graficas de secuencias
+y2_conv = conv(x2, h);
+hold all;
+plot(y2_conv,'x-')
+
