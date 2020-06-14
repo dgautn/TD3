@@ -1,4 +1,5 @@
 % <------- Guia 3 - Ejercicio 4 ----------->
+clc
 
 % punto 1
 
