@@ -10,9 +10,9 @@ y = zeros(1, N+M-1); % vector resultado
 r_des = zeros(1, N); % registro de desplazamiento
 x_ext = [x, zeros(1, N-1)]; % vector x extendido
 
-for n=1 : M+N-1
+for n = 1:M+N-1
   r_des = [x_ext(n), r_des(1:N-1)]; % llena el registro de desplazamiento con las ultimas N muestras de x
-  for i=1 : N
+  for i = 1:N
     y(n) = y(n) + ( h(i) * r_des(i) ); % sumatoria de convolución
   end
 end
@@ -22,7 +22,7 @@ stem(y,'filled') % graficas de secuencias
 
 % modificaciones para los ejes
 axis off;
-for l=1 : M+N-1
+for l = 1:M+N-1
   text (l, y(l), mat2str(y(l)),'horizontalalignment','right','verticalalignment','bottom')
   text (l, 0,  int2str(l),'verticalalignment','top')
 end
@@ -36,9 +36,9 @@ y2 = zeros(1, N+M2-1); % vector resultado
 r_des = zeros(1, N); % reinicializa el registro de desplazamiento
 x2_ext = [x2, zeros(1, N-1)]; % vector x2 extendido
 
-for n=1 : M2+N-1
+for n = 1:M2+N-1
   r_des = [x2_ext(n), r_des(1:N-1)]; % llena el registro de desplazamiento con las ultimas N muestras de x2
-  for i=1 : N
+  for i = 1:N
     y2(n) = y2(n) + ( h(i) * r_des(i) ); % sumatoria de convolución
   end
 end
@@ -61,7 +61,7 @@ r_des = zeros(1, N3); % reinicializa el registro de desplazamiento
 x3_ext = [x3, zeros(1, N3-1)]; % vector x extendido
 
 tic();
-for n=1 : M3+N3-1
+for n = 1:M3+N3-1
   r_des = [x3_ext(n), r_des(1:N3-1)]; % llena el registro de desplazamiento con las ultimas N muestras de x3
   h3t = h3'; %matriz transpuesta (N3 filas, 1 columna)
   y3(n) = r_des * h3t;
@@ -74,9 +74,9 @@ r_des = zeros(1, N3); % registro de desplazamiento
 x3_ext = [x3, zeros(1, N3-1)]; % vector x extendido
 
 tic();
-for n=1 : M3+N3-1
+for n = 1:M3+N3-1
   r_des = [x3_ext(n), r_des(1:N3-1)]; % llena el registro de desplazamiento con las ultimas N muestras de x3
-  for i=1 : N3
+  for i = 1:N3
     y3(n) = y3(n) + ( h3(i) * r_des(i) ); % sumatoria de convolución
   end
 end

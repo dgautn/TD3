@@ -21,6 +21,7 @@ M_d=(M_d(:,:,1)+ M_d(:,:,2)+ M_d(:,:,3))/3; % suma el valor de R+G+B para cada e
                                                % y divide para obtener el promedio
                                                %la matriz resultante es de 2 dimensiones
 M_u8=uint8(M_d);   % convierte a entero sin signo
+imwrite (M_u8, 'e3_1_4.tiff') % guarda el archivo de imagen para ser usado en el ejercicio 4
 figure(4);
 imshow(M_u8);
 
