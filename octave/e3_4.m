@@ -1,5 +1,5 @@
 % <------- Guia 3 - Ejercicio 4 ----------->
-clc
+clc % borra la consola 
 
 % punto 1
 
@@ -17,15 +17,16 @@ x_amp = [zeros(M-1, 2*M+C-2); zeros(F, M-1), x, zeros(F, M-1); zeros(M-1, 2*M+C-
 
 for i = 1:F+N-1
   for j = 1:C+M-1
-    m_aux = x_amp(i:i+N-1, j:j+M-1);
-    y(i, j) = sum(sum(m_aux .* hi));
+    m_aux = x_amp(i:i+N-1, j:j+M-1); % crea una matriz movil de N x M
+    y(i, j) = sum(sum(m_aux .* hi)); 
     end
 end
-y
+
+y % muestra la matriz convolucion del ejerciccio 4.1
 
 % punto 2
 
-h2 = floor(rand(2)*6);
+h2 = floor(rand(2)*6); % llena el kernel con con numeros aleatorios entre 0 y 6
 y2 = zeros(F+N-1,C+M-1); % reinicializa matriz resultado 
 hi2 = h2(end:-1:1,end:-1:1); % matriz de kernel invertida en filas y coluumnas
 
@@ -36,34 +37,32 @@ for i = 1:F+N-1
     end
 end
 
-y2
-y2_conv = conv2(x, h2)
+y2 % muestra la matriz convolucion del ejercicio 4.2
+y2_conv = conv2(x, h2) % muestra la misma matriz con el operador convolucion
 
 % punto 3
 
-img_1_4 = imread('e3_1_4.tiff'); %lee la imagen
-img_d = double(img_1_4);
-h3 = [1 -1; 0 0];
-y3 = conv2(img_d, h3);
-y3 = y3 / max(max(y3)) * 255;
-y3 = uint8(y3);
+img_1_4 = imread('e3_1_4.tiff'); % lee la imagen
+img_d = double(img_1_4); % convierte a flotante
+h3 = [1 -1; 0 0]; % kernel del ejercicio 4.3
+y3 = conv2(img_d, h3); % convolucion
+y3 = y3 / max(max(y3)) * 255; % escala de 0 a 255 
+y3 = uint8(y3); % convierte a entero sin signo de 8 bits
 
-clf;
-subplot(2,3,1);
+clf; % borra las ventanas de imagen
+subplot(2,3,1); % subplot (filas, columnas, indice)
 imshow(img_1_4);
-title ('imagen original');
+title ('imagen original'); % titulo para la imagen
 subplot(2,3,2);
-%figure(1);
 imshow(y3);
 title ('ejercicio 4.3');
 
 % punto 4
 
-h4 = [1 0; -1 0];
+h4 = [1 0; -1 0]; % kernel del ejercicio 4.4
 y4 = conv2(img_d, h4);
 y4 = y4 / max(max(y4)) * 255;
 y4 = uint8(y4);
-%figure(2);
 subplot(2,3,3);
 imshow(y4);
 title ('ejercicio 4.4');
@@ -73,7 +72,6 @@ title ('ejercicio 4.4');
 
 y5 = sqrt(y3.^2 + y4.^2);
 y5 = y5 / max(max(y5)) * 255;
-%figure(3);
 subplot(2,3,4);
 imshow(y5);
 title ('ejercicio 4.5');
@@ -84,8 +82,8 @@ title ('ejercicio 4.5');
 
 % punto 6
 
-h6_1 = [1 0 -1; 2 0 -2; 1 0 -1];
-h6_2 = [1 2 1; 0 0 0; -1 -2 -1];
+h6_1 = [1 0 -1; 2 0 -2; 1 0 -1]; % kernel del ejercicio 4.6-1
+h6_2 = [1 2 1; 0 0 0; -1 -2 -1]; % kernel del ejercicio 4.6-2
 
 y6_1 = conv2(img_d, h6_1);
 y6_1 = y6_1 / max(max(y6_1)) * 255;

@@ -1,5 +1,5 @@
 % <------- Guia 3 - Ejercicio 2 ----------->
-clc
+clc % borra la consola 
 
 % punto 1
 
@@ -18,11 +18,10 @@ for n = 1:M+N-1
   end
 end
 
-%figure(1);
-clf;
-subplot(1,2,1);
+clf; % borra las ventanas graficas
+subplot(1,2,1);  % subplot (filas, columnas, indice)
 stem(y,'filled') % graficas de secuencias
-title ('Ejercicio 2.1');
+title ('Ejercicio 2.1'); %titulo
 
 % modificaciones para los ejes
 axis off;
@@ -47,13 +46,13 @@ for n = 1:M2+N-1
   end
 end
 
-%figure(2);
 subplot(1,2,2);
 plot(y2,'o-') % graficas de secuencias
 
 y2_conv = conv(x2, h); % usando el operador convolucion
 hold all;
 plot(y2_conv,'x-')
+grid
 title ('Ejercicio 2.2 y 2.3');
 
 % punto 3
