@@ -46,9 +46,15 @@ h3 = [1 -1; 0 0];
 y3 = conv2(img_d, h3);
 y3 = y3 / max(max(y3)) * 255;
 y3 = uint8(y3);
-%max(max(y3))
-figure(1);
+
+clf;
+subplot(2,3,1);
+imshow(img_1_4);
+title ('imagen original');
+subplot(2,3,2);
+%figure(1);
 imshow(y3);
+title ('ejercicio 4.3');
 
 % punto 4
 
@@ -56,15 +62,21 @@ h4 = [1 0; -1 0];
 y4 = conv2(img_d, h4);
 y4 = y4 / max(max(y4)) * 255;
 y4 = uint8(y4);
-figure(2);
+%figure(2);
+subplot(2,3,3);
 imshow(y4);
+title ('ejercicio 4.4');
+
 
 % punto 5
 
 y5 = sqrt(y3.^2 + y4.^2);
 y5 = y5 / max(max(y5)) * 255;
-figure(3);
+%figure(3);
+subplot(2,3,4);
 imshow(y5);
+title ('ejercicio 4.5');
+
 %%%%%%%%%%%%%%%%
 % falta umbral %
 %%%%%%%%%%%%%%%%
@@ -77,11 +89,16 @@ h6_2 = [1 2 1; 0 0 0; -1 -2 -1];
 y6_1 = conv2(img_d, h6_1);
 y6_1 = y6_1 / max(max(y6_1)) * 255;
 y6_1 = uint8(y6_1);
-figure(4);
+%figure(4);
+subplot(2,3,5);
 imshow(y6_1);
+title ('ejercicio 4.6.1');
+
 
 y6_2 = conv2(img_d, h6_2);
 y6_2 = y6_2 / max(max(y6_2)) * 255;
 y6_2 = uint8(y6_2);
-figure(5);
+%figure(5);
+subplot(2,3,6);
 imshow(y6_2);
+title ('ejercicio 4.6.2');
