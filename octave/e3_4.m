@@ -44,7 +44,9 @@ img_1_4 = imread('e3_1_4.tiff'); %lee la imagen
 img_d = double(img_1_4);
 h3 = [1 -1; 0 0];
 y3 = conv2(img_d, h3);
+y3 = y3 / max(max(y3)) * 255;
 y3 = uint8(y3);
+%max(max(y3))
 figure(1);
 imshow(y3);
 
@@ -52,13 +54,34 @@ imshow(y3);
 
 h4 = [1 0; -1 0];
 y4 = conv2(img_d, h4);
+y4 = y4 / max(max(y4)) * 255;
 y4 = uint8(y4);
-%figure(2);
-%imshow(y4);
+figure(2);
+imshow(y4);
 
 % punto 5
 
 y5 = sqrt(y3.^2 + y4.^2);
-max(max(y5))
-%figure(3);
-%imshow(y5);
+y5 = y5 / max(max(y5)) * 255;
+figure(3);
+imshow(y5);
+%%%%%%%%%%%%%%%%
+% falta umbral %
+%%%%%%%%%%%%%%%%
+
+% punto 6
+
+h6_1 = [1 0 -1; 2 0 -2; 1 0 -1];
+h6_2 = [1 2 1; 0 0 0; -1 -2 -1];
+
+y6_1 = conv2(img_d, h6_1);
+y6_1 = y6_1 / max(max(y6_1)) * 255;
+y6_1 = uint8(y6_1);
+figure(4);
+imshow(y6_1);
+
+y6_2 = conv2(img_d, h6_2);
+y6_2 = y6_2 / max(max(y6_2)) * 255;
+y6_2 = uint8(y6_2);
+figure(5);
+imshow(y6_2);
