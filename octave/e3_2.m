@@ -87,10 +87,15 @@ for n = 1:M3+N3-1
 end
 t_for = toc (); % tiempo para la convolucion con bucle
 
-printf("tiempo para la convolucion utilizando matrices: %d segundos \n", t_mat)
-printf("tiempo para la convolucion utilizando iteraciones: %d segundos \n", t_for)
+tiempos = [sprintf('tiempo para la convolucion utilizando matrices: %d segundos \n', t_mat)];
+tiempos = [tiempos sprintf('tiempo para la convolucion utilizando iteraciones: %d segundos \n', t_for)];
+tiempos
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% tiempo para la convolucion utilizando matrices: 0.0453 segundos     %
-% tiempo para la convolucion utilizando iteraciones: 26.1659 segundos %
+%OCTAVE:                                                              %
+% tiempo para la convolucion utilizando matrices: 0.103 segundos      %
+% tiempo para la convolucion utilizando iteraciones: 58.23 segundos   %
+%MATLAB                                                               %
+% tiempo para la convolucion utilizando matrices: 3.48e-02 segundos   %
+% tiempo para la convolucion utilizando iteraciones: 8.88e-02 segundos%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

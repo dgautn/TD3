@@ -17,12 +17,13 @@ l = l(1:info.TotalSamples); % trunca la matriz resultado de la convolucion, al m
 s = [r, l]; % crea una matriz de audio estereo
 
 audiowrite('numeros_eco.wav', s, info.SampleRate) % guarda el archivo de audio con eco
-sound (s, info.SampleRate, info.BitsPerSample) % reproduce la matriz de audio
+y = audioplayer (s, info.SampleRate, info.BitsPerSample); % reproduce la matriz de audio
+playblocking(y); %evita la superposición con el segundo audio
 
 % punto 2
 
-K = 882; % 0.02 * 44100 = 882
-N = 4410; % 0.1 *44100 = 4410
+K = 882; % retardo * frec.muestreo = 0.02 * 44100 = 882
+N = 4410; % 0.1 * 44100 = 4410 (5 retardos de 20 ms)
 a = 0.7079457844; % -3dB = 20 log(a/1) => a = 10^(3/20) = 0.7079457844
 
 h_peine = zeros(1, N-1); % crea un vector kerne de N elementos en cero
