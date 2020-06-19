@@ -45,19 +45,19 @@ M_ojo(end,:,1)=255; %   >  pone en rojo la primera y ultima, fila y columna
 M_ojo(:,1,1)=255;   %  |
 M_ojo(:,end,1)=255; % /
 figure('name','Guia 3 ejercicio 1_b');                  % crea una nueva ventana de imagen
-subplot(2,2,1);             % subplot (filas, columnas, indice)
+subplot(1,3,1);             % subplot (filas, columnas, indice)
 imshow(M_ojo);              % muestra la imagen
 title ('ejercicio 1.5');  % titulo para la imagen
 
 % punto 6
 m=[2 3 1];
 M_GBR(:,:,:)=M(:,:,m);
-subplot(2,2,2);
+subplot(1,3,2);
 imshow(M_GBR);
 title ('ejercicio 1.6');
 
 %punto 7
 M_bc = brillo_contraste(M,0.3,0.9); %ajusta el brillo al 30% y el contraste al 90%
-subplot(2,2,3);
+subplot(1,3,3);
 imshow(M_bc);
 title ('ejercicio 1.7');
