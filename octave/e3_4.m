@@ -49,7 +49,6 @@ y3 = conv2(img_d, h3); % convolucion
 y3 = y3 / max(max(y3)) * 255; % escala de 0 a 255 
 y3uint8 = uint8(y3); % convierte a entero sin signo de 8 bits
 
-clf; % borra las ventanas de imagen
 figure('name','Guia 3 ejercicio 4_a');
 subplot(2,2,1); % subplot (filas, columnas, indice)
 imshow(img_1_4);
@@ -67,7 +66,6 @@ title ('ejercicio 4.3');
 % [250 230 235 236 220 5]  -> [250  0   5   1   0   0]
 
 
-
 % punto 4
 h4 = [1 0; -1 0]; % kernel del ejercicio 4.4
 y4 = conv2(img_d, h4);
@@ -81,6 +79,7 @@ title ('ejercicio 4.4');
 % Idem anterior, con direcci�n vertical descendente.
 % Compara con el pixel de "arriba". y pone en negro (cero) los que no
 % crezcan en esa direcci�n.
+
 
 % punto 5
 
