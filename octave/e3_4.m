@@ -50,7 +50,7 @@ y3 = y3 / max(max(y3)) * 255; % escala de 0 a 255
 y3uint8 = uint8(y3); % convierte a entero sin signo de 8 bits
 
 clf; % borra las ventanas de imagen
-figure(1);
+figure('name','Guia 3 ejercicio 4_a');
 subplot(2,2,1); % subplot (filas, columnas, indice)
 imshow(img_1_4);
 title ('imagen original'); % titulo para la imagen
@@ -60,9 +60,9 @@ title ('ejercicio 4.3');
 
 %Detecta "bordes" de nivel de izq a derecha.
 % Indica cuanto incrementa o decrementa la intensidad.
-% La imágen resultante solo muestra valores positivos (los demás los pone
+% La imï¿½gen resultante solo muestra valores positivos (los demï¿½s los pone
 % a cero), por lo que solo se ven incrementos de intensidad en esa
-%dirección.
+%direcciï¿½n.
 % Ejemplo:
 % [250 230 235 236 220 5]  -> [250  0   5   1   0   0]
 
@@ -78,9 +78,9 @@ imshow(y4uint8);
 title ('ejercicio 4.4');
 
 %Detecta "bordes" de nivel de arriba hacia abajo.
-% Idem anterior, con dirección vertical descendente.
+% Idem anterior, con direcciï¿½n vertical descendente.
 % Compara con el pixel de "arriba". y pone en negro (cero) los que no
-% crezcan en esa dirección.
+% crezcan en esa direcciï¿½n.
 
 % punto 5
 
@@ -114,17 +114,16 @@ h6_2 = [1 2 1; 0 0 0; -1 -2 -1]; % kernel del ejercicio 4.6-2
 y6_1 = conv2(img_d, h6_1);
 y6_1 = y6_1 / max(max(y6_1)) * 255;
 y6_1uint8 = uint8(y6_1);
-figure(2);
+figure('name','Guia 3 ejercicio 4_b');
 subplot(1,3,1);
 imshow(y6_1uint8);
 title ('ejercicio 4.6.1');
 
-%Similar al punto 4.3, pero toma una ventana de comparación mas amplia, lo
+%Similar al punto 4.3, pero toma una ventana de comparaciï¿½n mas amplia, lo
 %que dependiendo de las caracteristicas de la imagen puede ayudar a reducir
 %el ruido.
 %Ademas los gradientes ahora son oblicuos, el primero hacia la derecha y
 %ascendete y el segundo hacia la izquierda y descendente. 
-
 
 y6_2 = conv2(img_d, h6_2);
 y6_2 = y6_2 / max(max(y6_2)) * 255;

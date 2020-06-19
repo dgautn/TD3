@@ -1,5 +1,7 @@
 % <------- Guia 3 - Ejercicio 2 ----------->
-clc % borra la consola 
+
+clc; % borra la consola 
+close all; % cierra las ventanas de imagen
 
 % punto 1
 
@@ -10,19 +12,16 @@ N = length(h); % longitud del kernel
 y = zeros(1, N+M-1); % vector resultado
 r_des = zeros(1, N); % registro de desplazamiento
 x_ext = [x, zeros(1, N-1)]; % vector x extendido
-
 for n = 1:M+N-1
   r_des = [x_ext(n), r_des(1:N-1)]; % llena el registro de desplazamiento con las ultimas N muestras de x
   for i = 1:N
     y(n) = y(n) + ( h(i) * r_des(i) ); % sumatoria de convolución
   end
 end
-
-clf; % borra las ventanas graficas
+figure('name','Guia 3 ejercicio 2');
 subplot(1,2,1);  % subplot (filas, columnas, indice)
 stem(y,'filled') % graficas de secuencias
 title ('Ejercicio 2.1'); %titulo
-
 % modificaciones para los ejes
 axis off;
 for l = 1:M+N-1
@@ -45,10 +44,8 @@ for n = 1:M2+N-1
     y2(n) = y2(n) + ( h(i) * r_des(i) ); % sumatoria de convolución
   end
 end
-
 subplot(1,2,2);
 plot(y2,'o-') % graficas de secuencias
-
 y2_conv = conv(x2, h); % usando el operador convolucion
 hold all;
 plot(y2_conv,'x-')
@@ -64,7 +61,6 @@ N3 = length(h3); % longitud del kernel
 y3 = zeros(1, N3+M3-1); % nuevo vector resultado
 r_des = zeros(1, N3); % reinicializa el registro de desplazamiento
 x3_ext = [x3, zeros(1, N3-1)]; % vector x extendido
-
 tic();
 for n = 1:M3+N3-1
   r_des = [x3_ext(n), r_des(1:N3-1)]; % llena el registro de desplazamiento con las ultimas N muestras de x3
@@ -72,7 +68,6 @@ for n = 1:M3+N3-1
   y3(n) = r_des * h3t;
 end
 t_mat = toc(); % tiempo para la convolucion matricial
-
 % reinicializa los vectores para la convolucion matricial
 y3 = zeros(1, N3+M3-1); % vector resultado
 r_des = zeros(1, N3); % registro de desplazamiento
