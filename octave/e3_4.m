@@ -1,5 +1,7 @@
 % <------- Guia 3 - Ejercicio 4 ----------->
+
 clc % borra la consola 
+close all; % cierra las ventanas de imagen
 
 % punto 1
 
