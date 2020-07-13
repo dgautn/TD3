@@ -65,3 +65,5 @@ text (xmax, ymax, 'Banda de rechazo', "horizontalalignment", "right", "verticala
 patch ([xmin xmin fc fc], [ymin ymax ymax ymin], [0.7 1 0.7],'EdgeColor', 'none');
 patch ([fc fc f_btr f_btr], [ymin ymax ymax ymin], [1 1 0.5],'EdgeColor', 'none');
 patch ([f_btr f_btr xmax xmax], [ymin ymax ymax ymin], [1 0.8 0.8],'EdgeColor', 'none');
+
+axis ('auto'); % se vuelve a dibujar los ejes por si se sobreescribio alguna parte
