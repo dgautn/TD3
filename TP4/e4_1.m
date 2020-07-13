@@ -37,25 +37,28 @@ Gfc = Hdb(fc_H); % ganancia en la frecuencia de corte
 fc = fd(fc_H); % frecuencia de corte
 Rp = max(Hdb); % ripple en banda de paso
 fRp_H = find( Hdb == Rp ); % encuentra elemento de ripple
-fRp = fd( fRp_H(1) ); % frecuencia donde se produce el ripple
+fRp = fd( fRp_H(1) ); % frecuencia donde se produce el maximo ripple
 [H_sba, loc] = findpeaks(Hdb(fc_H:end), "DoubleSided"); % maximos [pico, ocurrencia], "DoubleSided" -> valores negativos
 f_btr = fd( fc_H+loc(1) ); % f_max banda transicion
-H_sba = H_sba(2); % solo la segunda ocurrencia (maximo)
-f_sba = fd( fc_H+loc(2) ); % solo la segunda ocurrencia
+H_sba = max(H_sba); % busca el mayor pico
+elem_sba = find ( Hdb(fc_H:end) == H_sba ); % busca el indice del mayor pico en la banda de rechazo
+f_sba = fd( fc_H+elem_sba ); % frecuencia del mayor pico en la banda de rechazo
 
 line ([0 f_sba], [Gp Gp], "linestyle", "-.", "color", "r", 'linewidth', 1);
 line ([f_sba f_sba], [H_sba Gp], "linestyle", ":", "color", "b", 'linewidth', 1);
 line ([fc fc], [ymin Gfc], "linestyle", "-.", "color", "r", 'linewidth', 1);
+line ([fc fc], [Gfc Gp], "linestyle", ":", "color", "b", 'linewidth', 1);
 
-text_Gp = ['Gp = ', num2str(Gp), ' dB'];
+text_Gp = ['Gp = ', num2str(Gp), ' dB '];
 text_Rp = ['Rp = ', num2str(Rp), ' dB'];
-text_fc = ['fc = ', num2str(fc), ' · fd'];
-text_Sba = ['Sba = ', num2str(Gp-H_sba), ' dB'];
+text_fc = [' fc = ', num2str(fc), ' · fd'];
+text_Sba = [' Sba = ', num2str(Gp-H_sba), ' dB'];
 
 text (0, Gp, text_Gp, "horizontalalignment", "right");
 text (fRp, Rp, text_Rp, "horizontalalignment", "center", "verticalalignment", "bottom");
 text (fc, ymin, text_fc, "verticalalignment", "bottom");
 text (f_sba, Gp+(H_sba/2), text_Sba);
+text (fc, Gp-1.5, ' 3dB');
 text (0, ymax, 'Banda de paso', "verticalalignment", "top");
 text (xmax, ymax, 'Banda de rechazo', "horizontalalignment", "right", "verticalalignment", "top");
 
