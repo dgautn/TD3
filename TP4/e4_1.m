@@ -1,6 +1,6 @@
 % <------- Guia 4 - Ejercicio 1 ----------->
 
-clc; % borra la consola 
+clc; % borra la consola
 close all; % cierra las ventanas de imagen
 
 % punto 1
@@ -11,7 +11,7 @@ stem (h,'fill');
 
 % punto 2
 H = fft(h,1000);  % calcula la FFT con 1000 puntos de frecuencia, completa con ceros
-Hdb = mag2db( abs( H(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva 
+Hdb = mag2db( abs( H(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 fd = (0 : 1/500 : 1-(1/500) ); % vector con los valores de frecuencia digital fd = 2f / fs
 
 subplot(1,2,2);
