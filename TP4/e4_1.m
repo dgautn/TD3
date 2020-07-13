@@ -8,7 +8,7 @@ pkg load signal; % 'findpeaks'
 
 % punto 1
 h = load ('low_pass.dat'); % carga el archivo .dat
-figure('name','Guia 4 ejercicio 1');
+figure('name','Guia 4 ejercicio 1','Units','normalized','Position',[0 0 1 1]); % pantalla completa
 subplot(1,2,1);  % subplot (filas, columnas, indice)
 stem (h,'fill');
 
@@ -43,9 +43,9 @@ f_btr = fd( fc_H+loc(1) ); % f_max banda transicion
 H_sba = H_sba(2); % solo la segunda ocurrencia (maximo)
 f_sba = fd( fc_H+loc(2) ); % solo la segunda ocurrencia
 
-line ([0 f_sba], [Gp Gp], "linestyle", "--", "color", "r", 'linewidth', 1);
-line ([f_sba f_sba], [H_sba Gp], "color", "g");
-line ([fc fc], [ymin Gfc], "linestyle", "--", "color", "r", 'linewidth', 1);
+line ([0 f_sba], [Gp Gp], "linestyle", "-.", "color", "r", 'linewidth', 1);
+line ([f_sba f_sba], [H_sba Gp], "linestyle", ":", "color", "b", 'linewidth', 1);
+line ([fc fc], [ymin Gfc], "linestyle", "-.", "color", "r", 'linewidth', 1);
 
 text_Gp = ['Gp = ', num2str(Gp), ' dB'];
 text_Rp = ['Rp = ', num2str(Rp), ' dB'];
