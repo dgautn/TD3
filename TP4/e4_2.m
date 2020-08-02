@@ -12,6 +12,6 @@ fpass = 0.1;
 fstop = 0.2;
 % ventana rectangular
 
-ft = (fstop - fpass) / 2; % frecuencia de corte ideal
+ft = (fstop + fpass) / 2; % frecuencia de corte ideal
 B = fstop - fpass; % ancho de banda de transicion
 M = 4/B % para ventana rectangular -> Ancho de lobulo principal = 4/M
