@@ -36,7 +36,7 @@ fd = (0 : 1/500 : 1-(1/500) ); % vector con los valores de frecuencia digital fd
 % | |  me parece que es de 0 a 499
 
 subplot(1,2,2);
-plot (fd, Hdb, 'linewidth', 3); % grafica la respuesta en frecuencia
+plot (fd, Hdb, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 xlabel ('Frecuencia digital ( f_d = 2·f / f_s )'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f_d)| [dB]');  % etiqueta eje y
 title ('Filtro pasa-bajos con f_{pass}=0.1·f_d  y  f_{stop} = 0.2·f_d'); % titulo
@@ -52,11 +52,11 @@ clear all; % borra todas las variables
 fs = 44100; % [Hz] frecuencia de muestreo
 fpass_hz = 3000; % [Hz] ^\__banda e transicion
 fstop_hz = 4000; % [Hz] _/
-Rp = 0.5; % [dB] (max) mag2db(db2mag(0.5)-1) -> ans = -24.546  [dB]
-Sba = 50; % [dB] (min) - 50 [dB] es la condicion mas exigente
+% Rp = 0.5; % [dB] (max) mag2db(db2mag(0.5)-1) -> ans = -24.546  [dB]
+% Sba = 50; % [dB] (min) - 50 [dB] es la condicion mas exigente
 % minima cantidad de taps
 
-% se elige la ventana hamming - Amplitud el pico mayor: -53 dB
+% se elige la ventana hamming - Amplitud del pico mayor: -53 dB
 
 fpass = 2 * fpass_hz / fs; %'^\_se convierte a frecuencias digitales
 fstop = 2 * fstop_hz / fs; % _/
@@ -76,11 +76,11 @@ frec = (0 : fs/1000 : ((fs/2)-(fs/1000)) ) / 1000; % vector con los valores de f
 % | |  me parece que es de 0 a 999
 
 figure(2, 'name','Guia 4 ejercicio 2.2','Units','normalized','Position',[0 0 .5 1]); % mitad de pantalla
-plot (frec, Hdb, 'linewidth', 3); % grafica la respuesta en frecuencia
+plot (frec, Hdb, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 axis([0 20 -150 10]); % limites de los ejes
 xlabel ('Frecuencia [kHz]'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
-title ('Filtro pasa-bajos con f_{pass}=3kHz  ,  f_{stop} = 4kHz  ,  f_s = 44.1kHz  ,  ventana Blackman'); % titulo
+title ('Filtro pasa-bajos con f_{pass}=3kHz  ,  f_{stop} = 4kHz  ,  f_s = 44.1kHz  ,  ventana Hamming'); % titulo
 grid on;
 grid minor on;
 
