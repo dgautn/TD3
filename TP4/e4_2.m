@@ -8,8 +8,8 @@ pkg load control; % paquete con 'mag2db'
 % punto 1
 
 % especificaciones:
-fpass = 0.1;
-fstop = 0.2;
+fpass = 0.1; % \  banda de transicion
+fstop = 0.2; % /
 % ventana rectangular
 
 ft = (fstop + fpass) / 2; % frecuencia de corte ideal
@@ -33,11 +33,28 @@ fd = (0 : 1/500 : 1-(1/500) ); % vector con los valores de frecuencia digital fd
 
 subplot(1,2,2);
 plot (fd, Hdb, 'linewidth', 3); % grafica la respuesta en frecuencia
-limits = axis; % vector con los limites de los ejes [xmin xmax ymin ymax]
-xmin = limits(1);
-xmax = limits(2);
-ymin = limits(3);
-ymax = limits(4);
+%limits = axis; % vector con los limites de los ejes [xmin xmax ymin ymax]
+%xmin = limits(1);
+%xmax = limits(2);
+%ymin = limits(3);
+%ymax = limits(4);
 xlabel ('Frecuencia digital ( f_d = 2·f / f_s )'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f_d)| [dB]');  % etiqueta eje y
 title ('Filtro pasa-bajos con f_{pass}=0.1·f_d  y  f_{stop} = 0.2·f_d'); % titulo
+
+% punto 2
+
+clear all; % borra todas las variables
+
+% especificaciones:
+fs = 44100; % [Hz] frecuencia de muestreo
+fpass_hz = 3000; % [Hz] ^\__banda e transicion
+fstop_hz = 4000; % [Hz] _/
+Rp = 0.5; % [dB] (max)
+Sba = 50; % [dB] (min)
+% minima cantidad de taps
+
+fpass = 2 * fpass_hz / fs; %'^\_se convierte a frecuencias digitales
+fstop = 2 * fstop_hz / fs; % _/
+ft = (fstop + fpass) / 2; % frecuencia de corte ideal
+B = fstop - fpass; % ancho de banda de transicion
