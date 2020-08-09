@@ -16,6 +16,8 @@ stem (h,'fill');
 H = fft(h,1000);  % calcula la FFT con 1000 puntos de frecuencia, completa con ceros
 Hdb = mag2db( abs( H(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 fd = (0 : 1/500 : 1-(1/500) ); % vector con los valores de frecuencia digital fd = 2f / fs
+% ^ ^
+% | |  me parece que es de 0 a 499
 
 subplot(1,2,2);
 plot (fd, Hdb, 'linewidth', 3); % grafica la respuesta en frecuencia
@@ -24,8 +26,8 @@ xmin = limits(1);
 xmax = limits(2);
 ymin = limits(3);
 ymax = limits(4);
-xlabel ('Frecuencia digital ( fd = 2f / fs )'); % etiqueta eje X
-ylabel ('Respuesta al impulso |H(fd)| [dB]');  % etiqueta eje y
+xlabel ('Frecuencia digital ( f_d = 2·f / f_s )'); % etiqueta eje X
+ylabel ('Respuesta al impulso |H(f_d)| [dB]');  % etiqueta eje y
 title ('Respuesta en frecuencia de un filtro FIR pasa-bajos'); % titulo
 
 % punto 3
