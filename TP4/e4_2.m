@@ -53,7 +53,7 @@ fs = 44100; % [Hz] frecuencia de muestreo
 fpass_hz = 3000; % [Hz] ^\__banda e transicion
 fstop_hz = 4000; % [Hz] _/
 % Rp = 0.5; % [dB] (max) mag2db(db2mag(0.5)-1) -> ans = -24.546  [dB]
-% Sba = 50; % [dB] (min) - 50 [dB] es la condicion mas exigente
+% Sba = 50; % [dB] (min) -50 [dB] es la condicion mas exigente
 % minima cantidad de taps
 
 % se elige la ventana hamming - Amplitud del pico mayor: -53 dB
