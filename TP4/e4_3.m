@@ -121,4 +121,4 @@ grid on;
 grid minor on;
 xlabel ('Frecuencia [kHz]'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
-title ('Filtro pasa altos con f_{pass}=6.1kHz  ,  f_{stop} = 6kHz  ,  f_s = 44.1kHz  ,  ventana Blackman'); % titulo
+title ('Filtro pasa altos con f_{pass}= 6.1kHz  ,  f_{stop}= 6kHz  ,  f_s= 44.1kHz  ,  ventana Blackman'); % titulo

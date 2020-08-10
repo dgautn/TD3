@@ -14,25 +14,23 @@ B = 0.01; % ancho de la banda de paso
 
 % se elige la ventana blackman - Amplitud del pico mayor: -74 dB
 
-% ^                B            B             
-% |H(f)         |<--->|      |<--->|                      
-% |             |    .--------.    |                 
-% |             |   /          \   |                 
-% |             |  /            \  |                 
-% |             | /|            |\ |                 
-% |             |/ |            | \|                 
-% |-------------'  |            |  '--------------   
-% |             |  |            |  |                
-% |-------------+--+------------+--+--------------->
-%             fc1  |            |  fc2             f 
-%                 ft_pa   |   ft_pb                 
-%    Fpa                  |                   Fpb    
-%  <----------------------+------------------------> 
+% ^                B            B
+% |H(f)         |<--->|      |<--->|
+% |             |    .--------.    |
+% |             |   /          \   |
+% |             |  /            \  |
+% |             | /|            |\ |
+% |             |/ |            | \|
+% |-------------'  |            |  '--------------
+% |             |  |            |  |
+% +-------------+--+------------+--+--------------->
+%             fc1  |            |  fc2             f
+%                 ft_pa   |   ft_pb
+%    Fpa                  |                   Fpb
+%  <----------------------+------------------------>
 
 ft_pa = fc1 + B/2; % frec transicion del pasa altos
 ft_pb = fc2 - B/2; % frec transicion del pasa bajos
-
-%Bt = (ft_pa + fc1)/2; % ancho de banda de transicion
 
 n_fft = 4000; % muestras para el fft
 pn_fft = n_fft/2; % muestras para el fft
@@ -60,14 +58,7 @@ h_pbanda = conv (h_pb, h_pa);
 H_pbanda = fft(h_pbanda,n_fft);  % calcula la FFT con n_fft puntos de frecuencia, completa con ceros
 Hdb_pbanda = mag2db( abs( H_pbanda(1:pn_fft) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 
-%H_pb = fft(h_pb,n_fft);  % calcula la FFT con n_fft puntos de frecuencia, completa con ceros
-%Hdb_pb = mag2db( abs( H_pb(1:pn_fft) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
-
 figure(1, 'name','Guia 4 ejercicio 4','Units','normalized','Position',[0 0 1 1]); % pantalla completa
-%subplot(1,2,1);  % subplot (filas, columnas, indice)
-%plot (fd, Hdb_pb, 'linewidth', 1.5); % grafica la respuesta en frecuencia
-%hold on;
-%plot (fd, Hdb_pa, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 plot (fd, Hdb_pbanda, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 axis([0 .3 -150 10]); % limites de los ejes
 grid on;
