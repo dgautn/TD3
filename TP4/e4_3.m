@@ -71,7 +71,7 @@ xlabel ('Frecuencia [kHz]'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
 title ('Filtro pasa altos por reversion de espectro'); % titulo
 legend({'Filtro pasa bajos', 'Filtro pasa altos'}, 'location', 'northwest');
-legend('boxoff')
+legend('boxoff');
 
 %%%%%%%%%%%   _____________________________
 % punto 3 %  | diseño de filtro pasa altos |
