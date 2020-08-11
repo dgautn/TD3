@@ -33,7 +33,7 @@ xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Nivel [dB]');  % etiqueta eje y
 title ('Espectro de dos tonos senoidales de amplitud 0.5 y frecuencias f​_1​= 1000Hz  y  f​_2​= 1100Hz'); % titulo
 
-%sound (tonos, fs); % reproduce la señal
+sound (tonos, fs); % reproduce la señal
 
 %%%%%%%%%%%
 % punto 2 %
@@ -93,4 +93,6 @@ xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Nivel [dB]');  % etiqueta eje y
 title (['Señal filtrada con filtro remez de ', num2str(N_remez), ' taps']); % titulo
 
+sound (ton_firls, fs); % reproduce la señal con filtro firls
+sound (ton_remez, fs); % reproduce la señal con filtro remez
 
