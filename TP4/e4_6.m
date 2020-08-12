@@ -20,7 +20,7 @@ d = 2; % [s] duracion
 tonos = (a * sin(2*pi*f1* [0:ts:d-ts] )) + (a * sin(2*pi*f2* [0:ts:d-ts] )); % suma de 2 pulsos senoidales
 % el vector contiene los valores temporales de la señal desde 0s hasta casi 2s con un paso de periodo de muestreo
 
-TONOS = fft(tonos, fs);  % calcula la FFT con cantidad de puntos de frecuencia igual a la frec de muestreo
+TONOS = fft(tonos, fs); % calcula la FFT con cantidad de puntos de frecuencia igual a la frec de muestreo
 TONOSdb = mag2db( abs( TONOS(1:fs/2) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 
 figure(1, 'name','Guia 4 ejercicio 6','Units','normalized','Position',[0 0 1 1]); % pantalla completa
