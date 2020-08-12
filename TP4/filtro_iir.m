@@ -20,7 +20,7 @@ for n = 1:M+N-1
     y(n) = y(n) + ( B(i) * r_des_ent(i) ); % algoritmo del filtro IIR suma productos de b[i]
   end
   for i = 2:N % empieza del segundo elemento
-    y(n) = y(n) - ( A(i) * r_des_sal(i) ); % algoritmo del filtro IIR resta productos de a[i]
+    y(n) = y(n) - ( A(i) * r_des_sal(i-1) ); % algoritmo del filtro IIR resta productos de a[i]
   end
   r_des_sal = [y(n), r_des_sal(1:N-1)]; %llena el registro de desplazamiento con las ultimas N salidas
 end

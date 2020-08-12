@@ -30,11 +30,12 @@ ts = 1/fs; % [s] periodo de muestreo
 tonos = (sin(2*pi*f1* [0:ts:d-ts] )) + (sin(2*pi*f2* [0:ts:d-ts] )); % suma de 2 tonos senoidales
 y = filtro_iir (B, A, tonos); % aplica el filtro IIR del punto 1
 Y = fft (y, fs); % calcula la FFT con cantidad de puntos de frecuencia igual a la frec de muestreo
-Ydb = mag2db( abs( Y(1:fs/2) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
+Ypos = abs( Y(1:fs/2) ); % guarda el valor absoluto de las muestras de f positiva
+%Ydb = mag2db( abs( Y(1:fs/2) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 
 figure(1, 'name','Guia 4 ejercicio 7','Units','normalized','Position',[0 0 1 1]); % pantalla completa
 subplot(2,2,1);  % subplot (filas, columnas, indice)
-%plot (Ydb, 'linewidth', 1.5); % grafica del espectro
+plot (Ypos, 'linewidth', 1.5); % grafica del espectro
 %axis([0 2000]); % limites de los ejes
 grid on;
 grid minor on;
@@ -48,8 +49,9 @@ title (''); % titulo
 
 y2 = filter (B, A, tonos); % aplica el filtro IIR 
 Y2 = fft (y2, fs); % calcula la FFT con cantidad de puntos de frecuencia igual a la frec de muestreo
-Y2db = mag2db (abs (Y2 (1:fs/2))); % convierte a dB el valor absoluto de las muestras de f positiva
+Y2pos = abs (Y2 (1:fs/2)); % guarda el valor absoluto de las muestras de f positiva
+%Y2db = mag2db (abs (Y2 (1:fs/2))); % convierte a dB el valor absoluto de las muestras de f positiva
 
 hold on;
-%plot (Ydb, 'linewidth', 1.5); % grafica del espectro
+plot (Y2pos, 'linewidth', 1.5); % grafica del espectro
 %sound (tonos, fs);
