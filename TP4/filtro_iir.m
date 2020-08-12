@@ -1,11 +1,11 @@
 function y = filtro_iir (B, A, senial)
-% e4_7  punto 1  
+% e4_7  punto 1
 % Programa que calcula la salida de un filtro IIR
 % salida = filtro_iir (B, A, señal)
 % señal -> señal de entrada
 % salida -> salida filtrada
 % B, A -> coeficientes
-  
+
 N = length(B); % o length(A) ??? Orden del filtro
 M = length(senial); % longitud de la señal de entrada
 
