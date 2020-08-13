@@ -95,4 +95,3 @@ title (['Señal filtrada con filtro remez de ', num2str(N_remez), ' taps']); % t
 
 sound (ton_firls, fs); % reproduce la señal con filtro firls
 sound (ton_remez, fs); % reproduce la señal con filtro remez
-

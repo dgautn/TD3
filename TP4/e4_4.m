@@ -66,5 +66,3 @@ grid minor on;
 xlabel ('Frecuencia digital ( f_d = 2·f / f_s )'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f_d)| [dB]');  % etiqueta eje y
 title ('Filtro pasa banda - f_{c1} = 0.1  ,  f_{c2} = 0.2  ,  B = 0.01 - ventana blackman'); % titulo
-
-

@@ -84,5 +84,5 @@ plot(100, H_db(400),'rx', 'linewidth', 3)
 text (50, H_db(200), [num2str(H_db(200)), " dB\n  50Hz"], "verticalalignment", "top");
 text (100, H_db(400), [num2str(H_db(400)), " dB\n  100Hz"], "verticalalignment", "top");
 
-% 50 * length (H_db) / (fs/2) -> ans =  200  % elemento del vector para cada frec 
-% 100 * length (H_db) / (fs/2) -> ans =  400 % 
+% 50 * length (H_db) / (fs/2) -> ans =  200  % elemento del vector para cada frec
+% 100 * length (H_db) / (fs/2) -> ans =  400 %

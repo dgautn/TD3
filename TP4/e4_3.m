@@ -28,8 +28,6 @@ h_pb = h_sinc .* (hamming (M))'; % enventanado - se multiplica elemento a elemen
 H_pb = fft(h_pb,1000);  % calcula la FFT con 1000 puntos de frecuencia, completa con ceros
 Hdb_pb = mag2db( abs( H_pb(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 frec = (0 : fs/1000 : ((fs/2)-(fs/1000)) ) / 1000; % vector con los valores de frecuencia en kHZ
-% ^ ^
-% | |  me parece que es de 0 a 999
 
 d = zeros(1,M); % vector para retardo
 d ((M+1) / 2) = 1; % El retardo es un impulso desplazado ( un unico 1 en el centro del vector) pasa todo
@@ -105,8 +103,6 @@ n = (0 : (M-1)); % elementos del vector h_sinc
 h_sinc = ft * sinc (ft * (n - ((M-1)/2))); % funcion sinc del filtro pasa bajos
 h_pb = h_sinc .* (blackman (M))'; % enventanado - se multiplica elemento a elemento
 frec = (0 : fs/n_fft : ((fs/2)-(fs/n_fft)) ) / 1000; % vector con los valores de frecuencia en kHZ
-% ^ ^
-% | |  me parece que es de 0 a n_fft-1
 
 d = zeros(1,M); % vector para retardo
 d ((M+1) / 2) = 1; % El retardo es un impulso desplazado ( un unico 1 en el centro del vector) pasa todo

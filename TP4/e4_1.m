@@ -16,8 +16,6 @@ stem (h,'fill');
 H = fft(h,1000);  % calcula la FFT con 1000 puntos de frecuencia, completa con ceros
 Hdb = mag2db( abs( H(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 fd = (0 : 1/500 : 1-(1/500) ); % vector con los valores de frecuencia digital fd = 2f / fs
-% ^ ^
-% | |  me parece que es de 0 a 499
 
 subplot(1,2,2);
 plot (fd, Hdb, 'linewidth', 3); % grafica la respuesta en frecuencia
@@ -69,4 +67,3 @@ patch ([fc fc f_btr f_btr], [ymin ymax ymax ymin], [1 1 0.5],'EdgeColor', 'none'
 patch ([f_btr f_btr xmax xmax], [ymin ymax ymax ymin], [1 0.8 0.8],'EdgeColor', 'none');
 
 axis ('auto'); % se vuelve a dibujar los ejes por si se sobreescribio alguna parte
-%grid on;

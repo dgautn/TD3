@@ -32,8 +32,6 @@ stem (h,'fill');
 H = fft(h,1000);  % calcula la FFT con 1000 puntos de frecuencia, completa con ceros
 Hdb = mag2db( abs( H(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 fd = (0 : 1/500 : 1-(1/500) ); % vector con los valores de frecuencia digital fd = 2f / fs
-% ^ ^
-% | |  me parece que es de 0 a 499
 
 subplot(1,2,2);
 plot (fd, Hdb, 'linewidth', 1.5); % grafica la respuesta en frecuencia
@@ -72,8 +70,6 @@ h = h_sinc .* (hamming (M))'; % enventanado - se multiplica elemento a elemento
 H = fft(h,1000);  % calcula la FFT con 1000 puntos de frecuencia, completa con ceros
 Hdb = mag2db( abs( H(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 frec = (0 : fs/1000 : ((fs/2)-(fs/1000)) ) / 1000; % vector con los valores de frecuencia en kHZ
-% ^ ^
-% | |  me parece que es de 0 a 999
 
 figure(2, 'name','Guia 4 ejercicio 2.2','Units','normalized','Position',[0 0 .5 1]); % mitad de pantalla
 plot (frec, Hdb, 'linewidth', 1.5); % grafica la respuesta en frecuencia
@@ -83,8 +79,3 @@ ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
 title ('Filtro pasa-bajos con f_{pass}=3kHz  ,  f_{stop} = 4kHz  ,  f_s = 44.1kHz  ,  ventana Hamming'); % titulo
 grid on;
 grid minor on;
-
-
-
-
-
