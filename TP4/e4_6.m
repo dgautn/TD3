@@ -1,14 +1,14 @@
 % <------- Guia 4 - Ejercicio 6 ----------->
 
-%%%%%%%%%%%
-% punto 1 %
-%%%%%%%%%%%
-
 clc; % borra la consola
 clear all; % borra todas las variables
 close all; % cierra las ventanas de imagen
 pkg load control; % paquete con 'mag2db'
 pkg load signal; % ventanas
+
+%%%%%%%%%%%
+% punto 1 %
+%%%%%%%%%%%
 
 a = 0.5; % amplitud
 f1 = 1000; % [Hz] tono 1

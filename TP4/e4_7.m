@@ -34,7 +34,7 @@ Y = fft (y, fs); % calcula la FFT con cantidad de puntos de frecuencia igual a l
 Ypos = abs( Y(1:(fs/2)) ); % guarda el valor absoluto de las muestras de f positiva
 %Ydb = mag2db( abs( Y(1:fs/2) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 
-figure(1, 'name','Guia 4 ejercicio 7','Units','normalized','Position',[0 0 1 1]); % mitad de pantalla
+figure(1, 'name','Guia 4 ejercicio 7','Units','normalized','Position',[0 0 1 1]); % pantalla completa
 subplot(2,1,1);  % subplot (filas, columnas, indice)
 plot (frec, Ypos, 'c', 'linewidth', 3.5); % grafica del espectro
 axis([0 127]); % limites de los ejes
