@@ -1,15 +1,17 @@
-% <------- Guia 4 - Ejercicio 2 ----------->
+%% <------- Guia 4 - Ejercicio 2 ----------->
 
 clc; % borra la consola
 clear all; % borra todas las variables
 close all; % cierra las ventanas de imagen
+isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
+if isOctave;
 pkg load control; % paquete con 'mag2db'
 pkg load signal; % ventanas
+end;
 
-
-%%%%%%%%%%%
-% punto 1 %
-%%%%%%%%%%%
+%%%%%%%%%%%%
+%% punto 1 %
+%%%%%%%%%%%%
 
 % especificaciones:
 fpass = 0.1; % \  banda de transicion
@@ -22,10 +24,12 @@ M = 4/B; % cantidad de taps - para ventana rectangular -> Ancho de lobulo princi
 n = (0 : (M-1)); % elementos del vector h_sinc
 
 h_sinc = ft * sinc (ft * (n - ((M-1)/2))); % funcion sinc del filtro
-h = h_sinc .* (rectwin (M))'; % se aplica la ventana rectangular, no tiene ningun efecto porque es un vector de unos
-% nota se hace la transpuesta porque la funcion de ventana devuelve un arreglo de M x 1, y nuestro vector es de 1 x M
+h = h_sinc .* (rectwin (M))'; % se aplica la ventana rectangular, no tiene 
+                              % ningun efecto porque es un vector de unos
+% nota: se hace la transpuesta porque la funcion de ventana devuelve un 
+% arreglo de M x 1, y nuestro vector es de 1 x M
 
-figure(1, 'name','Guia 4 ejercicio 2.1','Units','normalized','Position',[0 0 1 1]); % pantalla completa
+figure('name','Guia 4 ejercicio 2.1','Units','normalized','Position',[0 0 1 1]); % pantalla completa
 subplot(1,2,1);  % subplot (filas, columnas, indice)
 stem (h,'fill');
 
@@ -40,9 +44,9 @@ ylabel ('Respuesta al impulso |H(f_d)| [dB]');  % etiqueta eje y
 title ('Filtro pasa-bajos con f_{pass}=0.1·f_d  y  f_{stop} = 0.2·f_d'); % titulo
 grid on;
 
-%%%%%%%%%%%
-% punto 2 %
-%%%%%%%%%%%
+%%%%%%%%%%%%
+%% punto 2 %
+%%%%%%%%%%%%
 
 clear all; % borra todas las variables
 
@@ -71,11 +75,11 @@ H = fft(h,1000);  % calcula la FFT con 1000 puntos de frecuencia, completa con c
 Hdb = mag2db( abs( H(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 frec = (0 : fs/1000 : ((fs/2)-(fs/1000)) ) / 1000; % vector con los valores de frecuencia en kHZ
 
-figure(2, 'name','Guia 4 ejercicio 2.2','Units','normalized','Position',[0 0 .5 1]); % mitad de pantalla
+figure('name','Guia 4 ejercicio 2.2','Units','normalized','Position',[0 0 .5 1]); % mitad de pantalla
 plot (frec, Hdb, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 axis([0 20 -150 10]); % limites de los ejes
 xlabel ('Frecuencia [kHz]'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
 title ('Filtro pasa-bajos con f_{pass}=3kHz  ,  f_{stop} = 4kHz  ,  f_s = 44.1kHz  ,  ventana Hamming'); % titulo
 grid on;
-grid minor on;
+grid minor;

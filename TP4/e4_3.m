@@ -1,15 +1,17 @@
-% <------- Guia 4 - Ejercicio 3 ----------->
+%% <------- Guia 4 - Ejercicio 3 ----------->
 
 clc; % borra la consola
 clear all; % borra todas las variables
 close all; % cierra las ventanas de imagen
+isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
+if isOctave;
 pkg load control; % paquete con 'mag2db'
 pkg load signal; % ventanas
+end
 
-
-%%%%%%%%%%%   ______________________________________
-% punto 1 %  | pasa altos por inversion de espectro |
-%%%%%%%%%%%   """"""""""""""""""""""""""""""""""""""
+%%%%%%%%%%%%   ______________________________________
+%% punto 1 %  | pasa altos por inversion de espectro |
+%%%%%%%%%%%%   """"""""""""""""""""""""""""""""""""""
 
 % filtro de ejercicio 2.2
 fs = 44100; % [Hz] frecuencia de muestreo
@@ -21,7 +23,7 @@ ft = (fstop + fpass) / 2; % frecuencia de corte ideal
 B = fstop - fpass; % ancho de banda de transicion
 M = ceil(8/B); % cantidad de taps para ventana hamming -> Ancho de lobulo principal = 8/M
 M = 2*floor(M/2)+1; % convierte M al impar mayor o igual. floor(x) redondea al entero <= x
-% asegura una cantidad impar de coeficientes para que el retardo D resulte en un número entero 
+% asegura una cantidad impar de coeficientes para que el retardo D resulte en un numero entero 
 n = (0 : (M-1)); % elementos del vector h_sinc
 h_sinc = ft * sinc (ft * (n - ((M-1)/2))); % funcion sinc del filtro pasa bajos
 h_pb = h_sinc .* (hamming (M))'; % enventanado - se multiplica elemento a elemento
@@ -35,23 +37,23 @@ h_pa = d - h_pb; % el filtro pasa alto es el retardo menos el pasa bajos
 H_pa = fft(h_pa,1000);  % calcula la FFT con 1000 puntos de frecuencia, completa con ceros
 Hdb_pa = mag2db( abs( H_pa(1:500) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 
-figure(1, 'name','Guia 4 ejercicio 3.1 y 3.2','Units','normalized','Position',[0 0 1 1]); % pantalla completa
+figure('name','Guia 4 ejercicio 3.1 y 3.2','Units','normalized','Position',[0 0 1 1]); % pantalla completa
 subplot(1,2,1);  % subplot (filas, columnas, indice)
 plot (frec, Hdb_pb, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 hold on;
 plot (frec, Hdb_pa, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 axis([0 20 -150 10]); % limites de los ejes
 grid on;
-grid minor on;
+grid minor;
 xlabel ('Frecuencia [kHz]'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
 title ('Filtro pasa altos por inversion de espectro'); % titulo
 legend({'Filtro pasa bajos', 'Filtro pasa altos'}, 'location', 'northwest');
 legend('boxoff')
 
-%%%%%%%%%%%   ______________________________________
-% punto 2 %  | pasa altos por reversion de espectro |
-%%%%%%%%%%%   """"""""""""""""""""""""""""""""""""""
+%%%%%%%%%%%%   ______________________________________
+%% punto 2 %  | pasa altos por reversion de espectro |
+%%%%%%%%%%%%   """"""""""""""""""""""""""""""""""""""
 
 h_pa_r = h_pb; % copia el filtro pasa bajos
 h_pa_r(1:2:end) = h_pa_r(1:2:end) * -1; % multiplica por -1 los elementos impares
@@ -64,16 +66,16 @@ hold on;
 plot (frec, Hdb_pa_r, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 axis([0 22 -150 10]); % limites de los ejes
 grid on;
-grid minor on;
+grid minor;
 xlabel ('Frecuencia [kHz]'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
 title ('Filtro pasa altos por reversion de espectro'); % titulo
 legend({'Filtro pasa bajos', 'Filtro pasa altos'}, 'location', 'northwest');
 legend('boxoff');
 
-%%%%%%%%%%%   _____________________________
-% punto 3 %  | diseño de filtro pasa altos |
-%%%%%%%%%%%   """""""""""""""""""""""""""""
+%%%%%%%%%%%%   _____________________________
+%% punto 3 %  | disenio de filtro pasa altos |
+%%%%%%%%%%%%   """""""""""""""""""""""""""""
 
 clear all; % borra todas las variables
 
@@ -86,8 +88,8 @@ fstop_hz = 6100; % [Hz] _/  fpass del pb = fstop del pa, y viceversa
 % se permite ripple en la banda de transicion ??????
 
 % se elige la ventana blackman - Amplitud del pico mayor: -74 dB (insuficiente)
-% diseño con inversion de espectro, copia el procedimieno del punto 1
-% ¡¡¡¡¡ con otra ventana !!!!!
+% diseno con inversion de espectro, copia el procedimieno del punto 1
+% ��� con otra ventana !!!!!
 
 n_fft = 4000; % muestras para el fft
 pn_fft = n_fft/2; % muestras para el fft
@@ -110,11 +112,11 @@ h_pa = d - h_pb; % el filtro pasa alto es el retardo menos el pasa bajos
 H_pa = fft(h_pa,n_fft);  % calcula la FFT con n_fft puntos de frecuencia, completa con ceros
 Hdb_pa = mag2db( abs( H_pa(1:pn_fft) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 
-figure(2, 'name','Guia 4 ejercicio 3.3','Units','normalized','Position',[0 0 .5 1]); % mitad de pantalla
+figure('name','Guia 4 ejercicio 3.3','Units','normalized','Position',[0 0 .5 1]); % mitad de pantalla
 plot (frec, Hdb_pa, 'linewidth', 1); % grafica la respuesta en frecuencia
 axis([0 10 -250 10]); % limites de los ejes
 grid on;
-grid minor on;
+grid minor;
 xlabel ('Frecuencia [kHz]'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
 title ('Filtro pasa altos con f_{pass}= 6.1kHz  ,  f_{stop}= 6kHz  ,  f_s= 44.1kHz  ,  ventana Blackman'); % titulo

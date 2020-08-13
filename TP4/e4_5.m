@@ -1,11 +1,13 @@
-% <------- Guia 4 - Ejercicio 5 ----------->
+%% <------- Guia 4 - Ejercicio 5 ----------->
 
 clc; % borra la consola
 clear all; % borra todas las variables
 close all; % cierra las ventanas de imagen
+isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
+if isOctave;
 pkg load control; % paquete con 'mag2db'
 pkg load signal; % ventanas
-
+end;
 % especificaciones:
 fs = 44100; % [Hz] frecuencia de muestreo
 fc1_hz = 950; % [Hz]  ^\__banda e transicion
@@ -46,37 +48,38 @@ M = 2*floor(M/2)+1; % convierte M al impar mayor o igual. floor(x) redondea al e
 % asegura una cantidad impar de coeficientes para que el retardo D resulte en un nÃºmero entero
 n = (0 : (M-1)); % elementos de los vectores h_sinc
 
-% pasa bajos
+%% pasa bajos
 h_sinc = ft_pb * sinc (ft_pb * (n - ((M-1)/2))); % funcion sinc del filtro pasa bajos
 h_pb = h_sinc .* (blackman (M))'; % enventanado - se multiplica elemento a elemento
 
-% pasa altos
+%% pasa altos
 h_sinc = ft_pa * sinc (ft_pa * (n - ((M-1)/2))); % funcion sinc del filtro pasa bajos para convertir
 h_pa = h_sinc .* (blackman (M))'; % enventanado - se multiplica elemento a elemento
 d = zeros(1,M); % vector para retardo
 d ((M+1) / 2) = 1; % El retardo es un impulso desplazado ( un unico 1 en el centro del vector) pasa todo
 h_pa = d - h_pa; % el filtro pasa alto es el retardo menos el pasa bajos
 
-% elimina banda
+%% elimina banda
 h_eb = h_pb - h_pa; % se restan el pasa bajos y el pasa altos (en el apunte dice que se suman)
 
 H_eb = fft(h_eb,n_fft);  % calcula la FFT con n_fft puntos de frecuencia, completa con ceros
 Hdb_eb = mag2db( abs( H_eb(1:pn_fft) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
 
-figure(1, 'name','Guia 4 ejercicio 5','Units','normalized','Position',[0 0 1 1]); % pantalla completa
+figure('name','Guia 4 ejercicio 5','Units','normalized','Position',[0 0 1 1]); % pantalla completa
 plot (frec, Hdb_eb, 'linewidth', 1.5); % grafica la respuesta en frecuencia
 axis([0 2 -50 10]); % limites de los ejes
 grid on;
-grid minor on;
+grid minor;
 xlabel ('Frecuencia [kHz]'); % etiqueta eje X
 ylabel ('Respuesta al impulso |H(f)| [dB]');  % etiqueta eje y
 title ('Filtro elimina banda con f_{c1}= 950Hz  ,  f_{c2}= 1050Hz  ,  f_s= 44.1kHz  ,  ventana Blackman'); % titulo
 
-% Aplicacion del filtro al archivo de audio
+%% Aplicacion del filtro al archivo de audio
 % [Y, FS] = audioread (FILENAME) Read the audio file FILENAME and return the audio data Y and sampling rate FS.
 %Y = filter (B, A, X) Apply a 1-D digital filter to the data X.
 
 [audio_orig , Fs] = audioread('numeros_humm.wav'); %se carga el audio con interferencia de 1KHz
 audio_filt = filter (h_eb, 1, audio_orig); %se aplica el filtro elimina banda
-sound(audio_orig, Fs) %se reproduce el audio original
+y = audioplayer (audio_orig, Fs); % reproduce la matriz de audio original
+playblocking(y); %evita la superposición con el segundo audio
 sound(audio_filt, Fs) %se reproduce el audio filtrado
