@@ -20,7 +20,7 @@ ts = 1/fs; % [s] periodo de muestreo
 d = 2; % [s] duracion
 
 tonos = (a * sin(2*pi*f1* [0:ts:d-ts] )) + (a * sin(2*pi*f2* [0:ts:d-ts] )); % suma de 2 pulsos senoidales
-% el vector contiene los valores temporales de la señal desde 0s hasta casi 2s con un paso de periodo de muestreo
+% el vector contiene los valores temporales de la seï¿½al desde 0s hasta casi 2s con un paso de periodo de muestreo
 
 TONOS = fft(tonos, fs); % calcula la FFT con cantidad de puntos de frecuencia igual a la frec de muestreo
 TONOSdb = mag2db( abs( TONOS(1:fs/2) ) ); % convierte a dB el valor absoluto de las muestras de f positiva
@@ -35,8 +35,8 @@ xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Nivel [dB]');  % etiqueta eje y
 title ('Espectro de dos tonos senoidales de amplitud 0.5 y frecuencias f_1= 1000Hz  y  f_2= 1100Hz'); % titulo
 
-y = audioplayer (tonos, fs); % reproduce la señal
-playblocking(y); %evita la superposición con el segundo audio
+y = audioplayer (tonos, fs); % reproduce la seï¿½al
+playblocking(y); %evita la superposiciï¿½n con el segundo audio
 
 %%%%%%%%%%%%
 %% punto 2 %
@@ -86,7 +86,7 @@ grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Nivel [dB]');  % etiqueta eje y
-title (['Señal filtrada con filtro firls de ', num2str(N_firls), ' taps']); % titulo
+title (['SeÃ±al filtrada con filtro firls de ', num2str(N_firls), ' taps']); % titulo
 subplot(2,2,4);  % subplot (filas, columnas, indice)
 plot (TON_remez_db, 'linewidth', 1.5); % grafica del espectro
 xlim([0 2000]); % limites de los ejes
@@ -94,9 +94,9 @@ grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Nivel [dB]');  % etiqueta eje y
-title (['Señal filtrada con filtro remez de ', num2str(N_remez), ' taps']); % titulo
+title (['SeÃ±al filtrada con filtro remez de ', num2str(N_remez), ' taps']); % titulo
 
 
 y = audioplayer (ton_firls, fs); % reproduce la matriz de audio
-playblocking(y); %evita la superposición con el segundo audio
+playblocking(y); %evita la superposiciï¿½n con el segundo audio
 sound (ton_remez, fs); % reproduce la seÃ±al con filtro remez

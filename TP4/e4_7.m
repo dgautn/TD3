@@ -44,10 +44,10 @@ grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Amplitud');  % etiqueta eje y
-title ('Señal bitonal de 50Hz y 100Hz filtrada'); % titulo
+title ('SeÃ±al bitonal de 50Hz y 100Hz filtrada'); % titulo
 
-text (50, Ypos(51), [num2str(Ypos(51)), '\n  50Hz'], 'horizontalalignment', 'left');
-text (100, Ypos(101), [num2str(Ypos(101)), '\n  100Hz'], 'horizontalalignment', 'left');
+text (50, Ypos(51), [num2str(Ypos(51)), '  50Hz'], 'horizontalalignment', 'left');
+text (100, Ypos(101), [num2str(Ypos(101)), '  100Hz'], 'horizontalalignment', 'left');
 
 %%%%%%%%%%%%
 %% punto 3 %
@@ -83,8 +83,8 @@ title ('Respuesta en frecuencia del filtro'); % titulo
 hold on;
 plot(50, H_db(200),'rx', 'linewidth', 3)
 plot(100, H_db(400),'rx', 'linewidth', 3)
-text (50, H_db(200), [num2str(H_db(200)), ' dB\n  50Hz'], 'verticalalignment', 'top');
-text (100, H_db(400), [num2str(H_db(400)), ' dB\n  100Hz'], 'verticalalignment', 'top');
+text (50, H_db(200), [num2str(H_db(200)), ' dB  50Hz'], 'verticalalignment', 'top');
+text (100, H_db(400), [num2str(H_db(400)), ' dB  100Hz'], 'verticalalignment', 'top');
 
 % 50 * length (H_db) / (fs/2) -> ans =  200  % elemento del vector para cada frec
 % 100 * length (H_db) / (fs/2) -> ans =  400 %
