@@ -5,27 +5,27 @@ clear all; % borra todas las variables
 close all; % cierra las ventanas de imagen
 isOctave = exist('OCTAVE_VERSION', 'builtin') ~= 0;
 if isOctave;
-pkg load control; % paquete con 'mag2db'
-pkg load signal; % ventanas
+pkg load control; % 
+pkg load signal; % 
 end;
 
+[audio_orig , fs_orig] = audioread('Jahzzar_29400.wav'); % se carga el audio
 
-fs1 = 29400;
+%fs1 = 29400; % [Hz] frecuencia de muestreo original
+fs1 = fs_orig; % frecuencia de muestreo original
 fs2 = 44100; % [Hz] frecuencia de muestreo
 
-relacion = fs2/fs1
+sound(audio_orig(1:end/20), fs2) % se reproduce una parte del audio original
 
-L = 3;
+[L,M] = rat(fs2/fs1); % fraccional de la relacion de conversion
+f_corte = 1 / max([L M]); % frecuencia de corte mas chica para el filtro
 
-M = 2;
+audio_up = upsample(audio_orig, L); % se aplica upsampling
 
-[audio_orig , fs2] = audioread('Jahzzar_29400.wav'); %se carga el audio con interferencia de 1KHz
-length(audio_orig)
-audio_L = [1:length(audio_orig)*L];
+[B, A] = butter (3, f_corte, "low"); % se genera un filtro butter 
 
-m_max= length(audio_L)
-for m=1:m_max
-    if(rem(m,L)==0) audio_L(m)=audio_orig(m/L);
-      else audio_L(m)=0;
-    end
-end
+audio_filt = filter(B, A, audio_up); % se aplica el filtro
+
+audio_down = downsample(audio_filt, M); % se aplica downsampling
+
+sound(audio_down(1:end/30), fs2) %se reproduce una parte del audio modificado
