@@ -1,5 +1,6 @@
 %% <------- Guia 7 - Ejercicio 4 ----------->
 
+
 clc; % borra la consola
 clear all; % borra todas las variables
 close all; % cierra las ventanas de imagen
