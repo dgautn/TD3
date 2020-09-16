@@ -25,9 +25,9 @@ while l <= x_l
   Muestra = fft(muestra, N);
   Muestra = Muestra .* H;
   muestra = ifft(Muestra);
-  y = [y ; muestra(M:end,2)];
+  y = [y ; muestra(M:end,:)];
   l = l + N -(M-1);
 endwhile
 
-y = y(2:end - (L*ceil(x_l/L) - x_l) ,2); % se quitan los ceros agregados al final
+y = y(2:end - (L*ceil(x_l/L) - x_l) ,:); % se quitan los ceros agregados al final
 sound(y, fs_x);
