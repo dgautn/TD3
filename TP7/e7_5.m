@@ -60,13 +60,10 @@ for n=1:L
   % Registro de desplazamiento
   sr=[yo(n) sr(1:end-1)];
 
-  %% Insertar filtrado de muestras con h_s (^h o h sombrero) para obtener x_s[n] (^x o x sombrero)
-  % ->
-%  x_s(n) = sr(n)*h_s(n)';
-   x_s = sr * h_s';
-%  for i = 1:N
-%    x_s(n) = x_s(n) + ( h_s(i) * sr(i) ); % sumatoria de convolución
-%  end
+  %% Se insertar filtrado de muestras con h_s (^h o h sombrero) para obtener x_s[n] (^x o x sombrero)
+% /-----------------\
+  x_s(n) = sr * h_s';
+% \-----------------/  
 
   % Señal de referencia obtenida a partir de x_s 
   d(n)=(x_s(n)>0)*2-1;
@@ -74,9 +71,10 @@ for n=1:L
   % Señal de error
   e(n)=x_s(n)-d(n);
 
-  % Insertar adaptacion de coeficientes para obtener los coeficientes actualizados de h_s
-  % ->
-  h_s(n+1) = h_s(n) - mu * e(n) * yo(n);
+  %% Se insertar adaptacion de coeficientes para obtener los coeficientes actualizados de h_s
+% /-------------------------\
+  h_s = h_s - mu * e(n) * sr;
+% \-------------------------/
 
   % Actualización de gráficos
   if (mod(n,1000)==0)
