@@ -4,7 +4,11 @@ function plotfft(senial,titulo,fil,col,j)
 
 transf_s = fftshift(fft(senial));
 
-y = [1:length(transf_s)];
+long = length(transf_s);
+
+y = [1:long];
+marcas = [0 long/4 long/2 long/4*3 long];
+frec_norm = [-1 -0.5 0 0.5 1];
 
 subplot(fil,col,j);
 plot(y,abs(transf_s)); title(titulo);
@@ -12,15 +16,20 @@ grid on;
 
 x  = (1:max(abs(transf_s)*1.2));
 y = x;
-y(:)= fix(length(transf_s)/2);
+y(:)= fix(marcas(2));
 hold on;
 plot(y,x,'--k');
-y(:)= fix(length(transf_s)/4);
+y(:)= fix(marcas(3));
 hold on;
 plot(y,x,'--m');
-y(:)= fix(length(transf_s)/4*3);
+y(:)= fix(marcas(4));
 hold on;
 plot(y,x,'--m');
+
+% xticks(marcas);
+% xticklabels(frec_x);
+set(gca,'XTick',marcas);
+set(gca,'XTickLabel',frec_norm);
 
 clear x
 clear y
