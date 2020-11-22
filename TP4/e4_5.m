@@ -81,5 +81,5 @@ title ('Filtro elimina banda con f_{c1}= 950Hz  ,  f_{c2}= 1050Hz  ,  f_s= 44.1k
 [audio_orig , Fs] = audioread('numeros_humm.wav'); %se carga el audio con interferencia de 1KHz
 audio_filt = filter (h_eb, 1, audio_orig); %se aplica el filtro elimina banda
 y = audioplayer (audio_orig, Fs); % reproduce la matriz de audio original
-playblocking(y); %evita la superposición con el segundo audio
+playblocking(y); %evita la superposicion con el segundo audio
 sound(audio_filt, Fs) %se reproduce el audio filtrado

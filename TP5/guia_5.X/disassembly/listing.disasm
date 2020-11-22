@@ -1,0 +1,388 @@
+Disassembly Listing for guia_5
+Generated From:
+/home/gustavo/MPLABXProjects/guia_5.X/dist/XC16_dsPIC33FJ128GP804/production/guia_5.X.production.elf
+27/09/2020 00:16:28
+
+---  /home/gustavo/MPLABXProjects/guia_5.X/user.c  ------------------------------------------------------
+1:                 /******************************************************************************/
+2:                 /* Files to Include                                                           */
+3:                 /******************************************************************************/
+4:                 
+5:                 /* Device header file */
+6:                 #if defined(__XC16__)
+7:                     #include <xc.h>
+8:                 #elif defined(__C30__)
+9:                     #if defined(__dsPIC33E__)
+10:                    	#include <p33Exxxx.h>
+11:                    #elif defined(__dsPIC33F__)
+12:                    	#include <p33Fxxxx.h>
+13:                    #endif
+14:                #endif
+15:                
+16:                #include <stdint.h>          /* For uint16_t definition                       */
+17:                #include <stdbool.h>         /* For true/false definition                     */
+18:                #include "user.h"            /* variables/params used by user.c               */
+19:                
+20:                /******************************************************************************/
+21:                /* User Functions                                                             */
+22:                /******************************************************************************/
+23:                
+24:                /* <Initialize variables in user.h and insert code for user algorithms.> */
+25:                
+26:                void InitApp(void)
+27:                {
+000344  FA0000     LNK #0x0
+28:                    /* TODO Initialize User Ports/Peripherals/Project here */
+29:                
+30:                    /* Setup analog functionality and port direction */
+31:                    TRISBbits.TRISB2 = 0;
+000346  A942C8     BCLR TRISB, #2
+32:                    /* Initialize peripherals */
+33:                }
+000348  FA8000     ULNK
+00034A  060000     RETURN
+---  /home/gustavo/MPLABXProjects/guia_5.X/traps.c  -----------------------------------------------------
+1:                 /******************************************************************************/
+2:                 /* Files to Include                                                           */
+3:                 /******************************************************************************/
+4:                 
+5:                 /* Device header file */
+6:                 #if defined(__XC16__)
+7:                     #include <xc.h>
+8:                 #elif defined(__C30__)
+9:                     #if defined(__dsPIC33E__)
+10:                    	#include <p33Exxxx.h>
+11:                    #elif defined(__dsPIC33F__)
+12:                    	#include <p33Fxxxx.h>
+13:                    #endif
+14:                #endif
+15:                
+16:                #include <stdint.h>        /* Includes uint16_t definition */
+17:                #include <stdbool.h>       /* Includes true/false definition */
+18:                
+19:                /******************************************************************************/
+20:                /* Trap Function Prototypes                                                   */
+21:                /******************************************************************************/
+22:                
+23:                /* <Other function prototypes for debugging trap code may be inserted here>   */
+24:                
+25:                /* Use if INTCON2 ALTIVT=1 */
+26:                void __attribute__((interrupt,no_auto_psv)) _OscillatorFail(void);
+27:                void __attribute__((interrupt,no_auto_psv)) _AddressError(void);
+28:                void __attribute__((interrupt,no_auto_psv)) _StackError(void);
+29:                void __attribute__((interrupt,no_auto_psv)) _MathError(void);
+30:                
+31:                #if defined(__HAS_DMA__)
+32:                
+33:                void __attribute__((interrupt,no_auto_psv)) _DMACError(void);
+34:                
+35:                #endif
+36:                
+37:                #if defined(__dsPIC33F__)
+38:                
+39:                /* Use if INTCON2 ALTIVT=0 */
+40:                void __attribute__((interrupt,no_auto_psv)) _AltOscillatorFail(void);
+41:                void __attribute__((interrupt,no_auto_psv)) _AltAddressError(void);
+42:                void __attribute__((interrupt,no_auto_psv)) _AltStackError(void);
+43:                void __attribute__((interrupt,no_auto_psv)) _AltMathError(void);
+44:                
+45:                    #if defined(__HAS_DMA__)
+46:                
+47:                    void __attribute__((interrupt,no_auto_psv)) _AltDMACError(void);
+48:                
+49:                    #endif
+50:                
+51:                #endif
+52:                
+53:                /* Default interrupt handler */
+54:                void __attribute__((interrupt,no_auto_psv)) _DefaultInterrupt(void);
+55:                
+56:                #if defined(__dsPIC33E__)
+57:                
+58:                /* These are additional traps in the 33E family.  Refer to the PIC33E
+59:                migration guide.  There are no Alternate Vectors in the 33E family. */
+60:                void __attribute__((interrupt,no_auto_psv)) _HardTrapError(void);
+61:                void __attribute__((interrupt,no_auto_psv)) _SoftTrapError(void);
+62:                
+63:                #endif
+64:                
+65:                /******************************************************************************/
+66:                /* Trap Handling                                                              */
+67:                /*                                                                            */
+68:                /* These trap routines simply ensure that the device continuously loops       */
+69:                /* within each routine.  Users who actually experience one of these traps     */
+70:                /* can add code to handle the error.  Some basic examples for trap code,      */
+71:                /* including assembly routines that process trap sources, are available at    */
+72:                /* www.microchip.com/codeexamples                                             */
+73:                /******************************************************************************/
+74:                
+75:                /* Primary (non-alternate) address error trap function declarations */
+76:                void __attribute__((interrupt,no_auto_psv)) _OscillatorFail(void)
+77:                {
+0002C8  FA0000     LNK #0x0
+78:                        INTCON1bits.OSCFAIL = 0;        /* Clear the trap flag */
+0002CA  A92080     BCLR INTCON1, #1
+79:                        while(1);
+0002CC  37FFFF     BRA .L2
+80:                }
+81:                
+82:                void __attribute__((interrupt,no_auto_psv)) _AddressError(void)
+83:                {
+0002CE  FA0000     LNK #0x0
+84:                        INTCON1bits.ADDRERR = 0;        /* Clear the trap flag */
+0002D0  A96080     BCLR INTCON1, #3
+85:                        while (1);
+0002D2  37FFFF     BRA .L4
+86:                }
+87:                void __attribute__((interrupt,no_auto_psv)) _StackError(void)
+88:                {
+0002D4  FA0000     LNK #0x0
+89:                        INTCON1bits.STKERR = 0;         /* Clear the trap flag */
+0002D6  A94080     BCLR INTCON1, #2
+90:                        while (1);
+0002D8  37FFFF     BRA .L6
+91:                }
+92:                
+93:                void __attribute__((interrupt,no_auto_psv)) _MathError(void)
+94:                {
+0002DA  FA0000     LNK #0x0
+95:                        INTCON1bits.MATHERR = 0;        /* Clear the trap flag */
+0002DC  A98080     BCLR INTCON1, #4
+96:                        while (1);
+0002DE  37FFFF     BRA .L8
+97:                }
+98:                
+99:                #if defined(__HAS_DMA__)
+100:               
+101:               void __attribute__((interrupt,no_auto_psv)) _DMACError(void)
+102:               {
+0002E0  FA0000     LNK #0x0
+103:                       INTCON1bits.DMACERR = 0;        /* Clear the trap flag */
+0002E2  A9A080     BCLR INTCON1, #5
+104:                       while (1);
+0002E4  37FFFF     BRA .L10
+105:               }
+106:               
+107:               #endif
+108:               
+109:               #if defined(__dsPIC33F__)
+110:               
+111:               /* Alternate address error trap function declarations */
+112:               void __attribute__((interrupt,no_auto_psv)) _AltOscillatorFail(void)
+113:               {
+0002E6  FA0000     LNK #0x0
+114:                       INTCON1bits.OSCFAIL = 0;        /* Clear the trap flag */
+0002E8  A92080     BCLR INTCON1, #1
+115:                       while (1);
+0002EA  37FFFF     BRA .L12
+116:               }
+117:               
+118:               void __attribute__((interrupt,no_auto_psv)) _AltAddressError(void)
+119:               {
+0002EC  FA0000     LNK #0x0
+120:                       INTCON1bits.ADDRERR = 0;        /* Clear the trap flag */
+0002EE  A96080     BCLR INTCON1, #3
+121:                       while (1);
+0002F0  37FFFF     BRA .L14
+122:               }
+123:               
+124:               void __attribute__((interrupt,no_auto_psv)) _AltStackError(void)
+125:               {
+0002F2  FA0000     LNK #0x0
+126:                       INTCON1bits.STKERR = 0;         /* Clear the trap flag */
+0002F4  A94080     BCLR INTCON1, #2
+127:                       while (1);
+0002F6  37FFFF     BRA .L16
+128:               }
+129:               
+130:               void __attribute__((interrupt,no_auto_psv)) _AltMathError(void)
+131:               {
+0002F8  FA0000     LNK #0x0
+132:                       INTCON1bits.MATHERR = 0;        /* Clear the trap flag */
+0002FA  A98080     BCLR INTCON1, #4
+133:                       while (1);
+0002FC  37FFFF     BRA .L18
+134:               }
+135:               
+136:                   #if defined(__HAS_DMA__)
+137:               
+138:                   void __attribute__((interrupt,no_auto_psv)) _AltDMACError(void)
+139:                   {
+0002FE  FA0000     LNK #0x0
+140:                        INTCON1bits.DMACERR = 0;        /* Clear the trap flag */
+000300  A9A080     BCLR INTCON1, #5
+141:                        while (1);
+000302  37FFFF     BRA .L20
+142:                   }
+143:               
+144:                   #endif
+145:               
+146:               #endif
+147:               
+148:               /******************************************************************************/
+149:               /* Default Interrupt Handler                                                  */
+150:               /*                                                                            */
+151:               /* This executes when an interrupt occurs for an interrupt source with an     */
+152:               /* improperly defined or undefined interrupt handling routine.                */
+153:               /******************************************************************************/
+154:               void __attribute__((interrupt,no_auto_psv)) _DefaultInterrupt(void)
+155:               {
+000304  FA0000     LNK #0x0
+156:                       while(1);
+000306  37FFFF     BRA .L22
+157:               }
+158:               
+159:               #if defined(__dsPIC33E__)
+160:               
+161:               /* These traps are new to the dsPIC33E family.  Refer to the device Interrupt
+162:               chapter of the FRM to understand trap priority. */
+163:               void __attribute__((interrupt,no_auto_psv)) _HardTrapError(void)
+164:               {
+165:                   while(1);
+166:               }
+167:               void __attribute__((interrupt,no_auto_psv)) _SoftTrapError(void)
+168:               {
+169:                   while(1);
+170:               }
+171:               
+172:               #endif
+---  /home/gustavo/MPLABXProjects/guia_5.X/system.c  ----------------------------------------------------
+1:                 /******************************************************************************/
+2:                 /* Files to Include                                                           */
+3:                 /******************************************************************************/
+4:                 
+5:                 /* Device header file */
+6:                 #if defined(__XC16__)
+7:                     #include <xc.h>
+8:                 #elif defined(__C30__)
+9:                     #if defined(__dsPIC33E__)
+10:                    	#include <p33Exxxx.h>
+11:                    #elif defined(__dsPIC33F__)
+12:                    	#include <p33Fxxxx.h>
+13:                    #endif
+14:                #endif
+15:                
+16:                
+17:                #include <stdint.h>          /* For uint16_t definition                       */
+18:                #include <stdbool.h>         /* For true/false definition                     */
+19:                
+20:                #include "system.h"          /* variables/params used by system.c             */
+21:                
+22:                /******************************************************************************/
+23:                /* System Level Functions                                                     */
+24:                /*                                                                            */
+25:                /* Custom oscillator configuration funtions, reset source evaluation          */
+26:                /* functions, and other non-peripheral microcontroller initialization         */
+27:                /* functions get placed in system.c.                                          */
+28:                /*                                                                            */
+29:                /******************************************************************************/
+30:                
+31:                /* Refer to the device Family Reference Manual Oscillator section for
+32:                information about available oscillator configurations.  Typically
+33:                this would involve configuring the oscillator tuning register or clock
+34:                switching useing the compiler's __builtin_write_OSCCON functions.
+35:                Refer to the C Compiler for PIC24 MCUs and dsPIC DSCs User Guide in the
+36:                compiler installation directory /doc folder for documentation on the
+37:                __builtin functions.*/
+38:                
+39:                /* TODO Add clock switching code if appropriate.  An example stub is below.   */
+40:                void ConfigureOscillator(void)
+41:                {
+00034C  FA0000     LNK #0x0
+42:                
+43:                #if 0
+44:                        /* Disable Watch Dog Timer */
+45:                        RCONbits.SWDTEN = 0;
+46:                
+47:                        /* When clock switch occurs switch to Primary Osc (HS, XT, EC) */
+48:                        __builtin_write_OSCCONH(0x02);  /* Set OSCCONH for clock switch */
+49:                        __builtin_write_OSCCONL(0x01);  /* Start clock switching */
+50:                        while(OSCCONbits.COSC != 0b011);
+51:                
+52:                        /* Wait for Clock switch to occur */
+53:                        /* Wait for PLL to lock, only if PLL is needed */
+54:                        /* while(OSCCONbits.LOCK != 1); */
+55:                #endif
+56:                }
+00034E  FA8000     ULNK
+000350  060000     RETURN
+57:                
+---  /home/gustavo/MPLABXProjects/guia_5.X/main.c  ------------------------------------------------------
+1:                 /******************************************************************************/
+2:                 /* Files to Include                                                           */
+3:                 /******************************************************************************/
+4:                 
+5:                 /* Device header file */
+6:                 #if defined(__XC16__)
+7:                     #include <xc.h>
+8:                 #elif defined(__C30__)
+9:                     #if defined(__dsPIC33E__)
+10:                    	#include <p33Exxxx.h>
+11:                    #elif defined(__dsPIC33F__)
+12:                    	#include <p33Fxxxx.h>
+13:                    #endif
+14:                #endif
+15:                
+16:                
+17:                #include <stdint.h>        /* Includes uint16_t definition                    */
+18:                #include <stdbool.h>       /* Includes true/false definition                  */
+19:                
+20:                #include "system.h"        /* System funct/params, like osc/peripheral config */
+21:                #include "user.h"          /* User funct/params, such as InitApp              */
+22:                
+23:                /******************************************************************************/
+24:                /* Global Variable Declaration                                                */
+25:                /******************************************************************************/
+26:                
+27:                /* i.e. uint16_t <variable_name>; */
+28:                
+29:                /******************************************************************************/
+30:                /* Main Program                                                               */
+31:                /******************************************************************************/
+32:                
+33:                int16_t main(void)
+34:                {
+00030A  FA0004     LNK #0x4
+35:                
+36:                    /* Configure the oscillator for the device */
+37:                    ConfigureOscillator();
+00030C  07001F     RCALL ConfigureOscillator
+38:                
+39:                    /* Initialize IO ports and peripherals */
+40:                    InitApp();
+00030E  07001A     RCALL InitApp
+41:                
+42:                    /* TODO <INSERT USER APPLICATION CODE HERE> */
+43:                    int32_t i;
+44:                    while(1)
+45:                    {
+46:                        for(i=0;i<155000;i=i+1);
+000310  B80060     MUL.UU W0, #0, W0
+000312  BE8F00     MOV.D W0, [W14]
+000314  370004     BRA .L2
+000316  200012     MOV #0x1, W2
+000318  200003     MOV #0x0, W3
+00031A  410F1E     ADD W2, [W14], [W14]
+00031C  49975E     ADDC W3, [++W14], [W14--]
+00031E  25D770     MOV #0x5D77, W0
+000320  200021     MOV #0x2, W1
+000322  BE011E     MOV.D [W14], W2
+000324  510F80     SUB W2, W0, [W15]
+000326  598F81     SUBB W3, W1, [W15]
+000328  34FFF6     BRA LE, .L3
+47:                        LATBbits.LATB2 = ~LATBbits.LATB2;
+00032A  801660     MOV LATB, W0
+00032C  DE0042     LSR W0, #2, W0
+00032E  604061     AND.B W0, #0x1, W0
+000330  EAC000     COM.B W0, W0
+000332  604061     AND.B W0, #0x1, W0
+000334  FB8000     ZE W0, W0
+000336  600061     AND W0, #0x1, W0
+000338  DD0042     SL W0, #2, W0
+00033A  801661     MOV LATB, W1
+00033C  A12001     BCLR W1, #2
+00033E  700001     IOR W0, W1, W0
+000340  881660     MOV W0, LATB
+48:                    }
+000342  37FFE6     BRA .L4
+49:                }
