@@ -1,13 +1,14 @@
-<Application Description for Project Goes Here>
+Tecnicas Digitales 3
+Trabajo Practico no. 6
 
-Project Owner(s):
-Author(s):
-Hardware Platform:
-Debuggers Used:
-Programmers Used:
-MPLAB Version:
-C Compiler Version:
-Final Checksum:
+    Dante Ruiz  - leg. 49881
+    Juan Ignacio Nicolodi  - leg. 66875
+    Sebastián Cueva Bono  - leg. 56016
+    Darío Gustavo Albarrán  - leg. 43143
+
+Codigo agregado por ejercicio:
+
+
 
 FILES INCLUDED IN THE PROJECT TREE:
 
