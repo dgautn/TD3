@@ -73,12 +73,11 @@ Hdb_eb_fix = mag2db( abs( H_eb_fix(1:pn_fft) ) ); % convierte a dB
 
 %% Vector ed coeficientes
 str = '{';
-for n = 1 : M
+for n = 1 : 32
     fix_i = h_eb_fx(n);
     str = [str, '0x', fix_i.hex, ','];
 end
 str = [str(1:end-1), '}'];
-disp(str);
 
 %% Grafica
 figure('name','Guia 6 ejercicio 1.1','Units','normalized','Position',[0 0 1 1]); % pantalla completa
