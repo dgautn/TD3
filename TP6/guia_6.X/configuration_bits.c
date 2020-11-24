@@ -52,13 +52,13 @@
 
 // FOSCSEL
 #pragma config FNOSC = FRC              // Oscillator Mode (Internal Fast RC (FRC))
-#pragma config IESO = ON                // Internal External Switch Over Mode (Start-up device with FRC, then automatically switch to user-selected oscillator source when ready)
+#pragma config IESO = OFF
 
-// FOSC
-#pragma config POSCMD = NONE            // Primary Oscillator Source (Primary Oscillator Disabled)
-#pragma config OSCIOFNC = OFF           // OSC2 Pin Function (OSC2 pin has clock out function)
-#pragma config IOL1WAY = ON             // Peripheral Pin Select Configuration (Allow Only One Re-configuration)
-#pragma config FCKSM = CSDCMD           // Clock Switching and Monitor (Both Clock Switching and Fail-Safe Clock Monitor are disabled)
+// FOSC                      
+#pragma config POSCMD = XT   
+#pragma config OSCIOFNC = OFF
+#pragma config IOL1WAY = ON  
+#pragma config FCKSM = CSECMD
 
 // FWDT
 #pragma config WDTPOST = PS32768        // Watchdog Timer Postscaler (1:32,768)

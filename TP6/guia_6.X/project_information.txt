@@ -8,6 +8,11 @@ Trabajo Practico no. 6
 
 Codigo agregado por ejercicio:
 
+Ejercicio 1.2:
+    main.c              - Declaracion de la variable "filtro", tipo FIRStruct
+                        - Declaracion de variables "coeffs" "delay" "temp" tipo fractional
+    user.h              - Constantes TAPS ALIGNED SAMPLES
+
 
 
 FILES INCLUDED IN THE PROJECT TREE:

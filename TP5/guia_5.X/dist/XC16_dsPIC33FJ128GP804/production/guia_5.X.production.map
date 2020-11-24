@@ -104,10 +104,10 @@ section                    address   length (PC units)   length (bytes) (dec)
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .ndata                       0x800                   0             0x2  (2)
-_0x7f65eaad35005fb9c49f     0x4700                   0            0x40  (64)
-_0x7f65eaad34605fb9c49f     0x4740                   0            0x40  (64)
-_0x7f65eaad33c05fb9c49f     0x4780                   0            0x40  (64)
-_0x7f65eaad33205fb9c49f     0x47c0                   0            0x40  (64)
+_0x7f764ca255005fbc5d9b     0x4700                   0            0x40  (64)
+_0x7f764ca254605fbc5d9b     0x4740                   0            0x40  (64)
+_0x7f764ca253c05fbc5d9b     0x4780                   0            0x40  (64)
+_0x7f764ca253205fbc5d9b     0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x102  (258) 1%
 
@@ -317,17 +317,17 @@ usercode
 
 __FBS             0xf80000          0x2
  *(__FBS.sec*)
- __FBS.sec        0xf80000          0x2 /CW/_FBSàa«
+ __FBS.sec        0xf80000          0x2 /CW/_FBSà¡˝
                   0xf80000                  __FBS.sec
 
 __FSS             0xf80002          0x2
  *(__FSS.sec*)
- __FSS.sec        0xf80002          0x2 /CW/_FSSòQ«
+ __FSS.sec        0xf80002          0x2 /CW/_FSSò±˝
                   0xf80002                  __FSS.sec
 
 __FGS             0xf80004          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf80004          0x2 /CW/_FGS»ç∆
+ __FGS.sec        0xf80004          0x2 /CW/_FGS»Ì¸
                   0xf80004                  __FGS.sec
 
 __FOSCSEL
@@ -360,14 +360,14 @@ __FUID3
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x43f6
+.debug_info       0x000000       0x442c
  *(.debug_info)
- .debug_info      0x000000        0x139 build/XC16_dsPIC33FJ128GP804/production/configuration_bits.o
- .debug_info      0x000139        0x923 build/XC16_dsPIC33FJ128GP804/production/interrupts.o
- .debug_info      0x000a5c        0x212 build/XC16_dsPIC33FJ128GP804/production/main.o
- .debug_info      0x000c6e        0x54b build/XC16_dsPIC33FJ128GP804/production/system.o
- .debug_info      0x0011b9        0x411 build/XC16_dsPIC33FJ128GP804/production/traps.o
- .debug_info      0x0015ca       0x2e2c build/XC16_dsPIC33FJ128GP804/production/user.o
+ .debug_info      0x000000        0x142 build/XC16_dsPIC33FJ128GP804/production/configuration_bits.o
+ .debug_info      0x000142        0x92c build/XC16_dsPIC33FJ128GP804/production/interrupts.o
+ .debug_info      0x000a6e        0x21b build/XC16_dsPIC33FJ128GP804/production/main.o
+ .debug_info      0x000c89        0x554 build/XC16_dsPIC33FJ128GP804/production/system.o
+ .debug_info      0x0011dd        0x41a build/XC16_dsPIC33FJ128GP804/production/traps.o
+ .debug_info      0x0015f7       0x2e35 build/XC16_dsPIC33FJ128GP804/production/user.o
  *(.gnu.linkonce.wi.*)
 
 .debug_abbrev     0x000000        0x3f3
@@ -1436,9 +1436,9 @@ LOAD /opt/microchip/xc16/v1.60/bin/bin/../../lib/libm-elf.a
 LOAD /opt/microchip/xc16/v1.60/bin/bin/../../lib/liblega-c-elf.a
 END GROUP
 OUTPUT(dist/XC16_dsPIC33FJ128GP804/production/guia_5.X.production.elf elf32-pic30)
-LOAD /CW/_FGS»ç∆
-LOAD /CW/_FSSòQ«
-LOAD /CW/_FBSàa«
+LOAD /CW/_FGS»Ì¸
+LOAD /CW/_FSSò±˝
+LOAD /CW/_FBSà¡˝
 LOAD data_init
 
 .debug_pubtypes
@@ -1475,27 +1475,27 @@ __c30_signature
  __c30_signature
                   0x0005e7          0x6 /opt/microchip/xc16/v1.60/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
 
-_0x7f65eaad33205fb9c49f
+_0x7f764ca253205fbc5d9b
                     0x47c0         0x40
- _0x7f65eaad33205fb9c49f
+ _0x7f764ca253205fbc5d9b
                     0x47c0         0x40 build/XC16_dsPIC33FJ128GP804/production/main.o
                     0x47c0                  _RightBufferA
 
-_0x7f65eaad33c05fb9c49f
+_0x7f764ca253c05fbc5d9b
                     0x4780         0x40
- _0x7f65eaad33c05fb9c49f
+ _0x7f764ca253c05fbc5d9b
                     0x4780         0x40 build/XC16_dsPIC33FJ128GP804/production/main.o
                     0x4780                  _RightBufferB
 
-_0x7f65eaad34605fb9c49f
+_0x7f764ca254605fbc5d9b
                     0x4740         0x40
- _0x7f65eaad34605fb9c49f
+ _0x7f764ca254605fbc5d9b
                     0x4740         0x40 build/XC16_dsPIC33FJ128GP804/production/main.o
                     0x4740                  _LeftBufferA
 
-_0x7f65eaad35005fb9c49f
+_0x7f764ca255005fbc5d9b
                     0x4700         0x40
- _0x7f65eaad35005fb9c49f
+ _0x7f764ca255005fbc5d9b
                     0x4700         0x40 build/XC16_dsPIC33FJ128GP804/production/main.o
                     0x4700                  _LeftBufferB
 

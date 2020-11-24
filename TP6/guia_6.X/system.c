@@ -40,18 +40,25 @@ __builtin functions.*/
 void ConfigureOscillator(void)
 {
 
-#if 0
-        /* Disable Watch Dog Timer */
-        RCONbits.SWDTEN = 0;
+#if 1  // habilitar -> #if 1
+    /****************************** PLL 40 MIPS *******************************/
 
-        /* When clock switch occurs switch to Primary Osc (HS, XT, EC) */
-        __builtin_write_OSCCONH(0x02);  /* Set OSCCONH for clock switch */
-        __builtin_write_OSCCONL(0x01);  /* Start clock switching */
-        while(OSCCONbits.COSC != 0b011);
+    // Configure PLL prescaler, PLL postscaler, PLL divisor
+    PLLFBD=30;             // M = 32
+    CLKDIVbits.PLLPOST=0;  // N2 = 2
+    CLKDIVbits.PLLPRE=0;   // N1 = 2
 
-        /* Wait for Clock switch to occur */
-        /* Wait for PLL to lock, only if PLL is needed */
-        /* while(OSCCONbits.LOCK != 1); */
+    // Initiate Clock Switch to Primary Oscillator with PLL (NOSC = 0b011)
+    __builtin_write_OSCCONH(0x03);
+    __builtin_write_OSCCONL(OSCCON | 0x01);
+
+    // Wait for Clock switch to occur
+    while (OSCCONbits.COSC != 0b011);
+
+    // Wait for PLL to lock
+    while(OSCCONbits.LOCK!=1) {};
+
+    /**************************************************************************/
 #endif
 }
 

@@ -19,12 +19,24 @@
 
 #include "system.h"        /* System funct/params, like osc/peripheral config */
 #include "user.h"          /* User funct/params, such as InitApp              */
+#include <dsp.h>           /* Libreria para DSP                               */
 
 /******************************************************************************/
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
-/* i.e. uint16_t <variable_name>; */
+FIRStruct filtro;
+fractional coeffs[TAPS]__attribute__((space(xmemory), far, aligned(ALIGNED))) = { 
+   
+};
+fractional delay[TAPS]__attribute__((space(ymemory), far, aligned(ALIGNED)));
+fractional temp[32];
+
+fractional DAC_BufferA[32]__attribute__((space(dma))) = {0}; 
+fractional DAC_BufferB[32]__attribute__((space(dma))) = {0};
+fractional ADC_BufferA[32]__attribute__((space(dma)));
+fractional ADC_BufferB[32]__attribute__((space(dma)));
+
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -43,6 +55,6 @@ int16_t main(void)
 
     while(1)
     {
-
+        LATBbits.LATB2 = PORTBbits.RB7; // Enciende led1 si se pulsa boton1
     }
 }

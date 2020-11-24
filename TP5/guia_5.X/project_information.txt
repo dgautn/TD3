@@ -32,7 +32,7 @@ Ejercicio 3.1
     configuration_bits.c        - misma configuracion que ejercicio 2.2
 
 Ejercicio 3.2
-    user.c                      - ConfigTimer(); (como el ej. 2.2)
+    user.c                      - (no hace falta) ConfigTimer(); (como el ej. 2.2)
                                 - ConfigDMA0_DMA1();
                                 - ConfigDACconDMA();
                                 - variable global extern buffers A y B, izq y der
@@ -40,7 +40,7 @@ Ejercicio 3.2
     configuration_bits.c        - misma configuracion que ejercicio 2.2
 
 Ejercicio 4
-    user.c                      - ConfigTimer(); (como el ej. 2.2)
+    user.c                      - (no hace falta) ConfigTimer(); (como el ej. 2.2)
                                 - ConfigDMA0_DMA1(); (como el ej. 3.2)
                                 - ConfigDACconDMA(); (como el ej. 3.2)
                                 - variable global extern buffers A y B, izq y der (como el ej. 3.2)
@@ -51,7 +51,7 @@ Ejercicio 4
     configuration_bits.c        - misma configuracion que ejercicio 2.2
 
 Ejercicio 5
-    user.c                      - ConfigTimer(); (como el ej. 2.2)
+    user.c                      - (no hace falta) ConfigTimer(); (como el ej. 2.2)
                                 - ConfigUART();
     interrupts.c                - Codigo que se ejecuta con _U1RXInterrupt
 

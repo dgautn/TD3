@@ -15,6 +15,19 @@
 
 #include <stdint.h>        /* Includes uint16_t definition   */
 #include <stdbool.h>       /* Includes true/false definition */
+#include <dsp.h>             /* Libreria para DSP                             */
+
+/******************************************************************************/
+/* Variables globales definidas en main.c                                                            */
+/******************************************************************************/
+
+extern FIRStruct filtro;
+extern fractional temp[32];
+
+extern fractional DAC_BufferA[32]__attribute__((space(dma)));
+extern fractional DAC_BufferB[32]__attribute__((space(dma)));
+extern fractional ADC_BufferA[32]__attribute__((space(dma)));
+extern fractional ADC_BufferB[32]__attribute__((space(dma)));
 
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
@@ -124,3 +137,26 @@
 /******************************************************************************/
 
 /* TODO Add interrupt routine code here. */
+
+void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
+{
+    IFS1bits.DMA2IF = 0; // Borra el Flag de interrupcion del DMA Canal 2 
+
+    // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
+    if(DMACS1bits.PPST2)                               
+        FIR(32, temp, (fractional *)ADC_BufferA, &filtro);
+    else
+        FIR(32, temp, (fractional *)ADC_BufferB, &filtro);
+}
+
+
+void __attribute__((interrupt, no_auto_psv))_DMA1Interrupt(void)
+{
+    IFS0bits.DMA1IF = 0; // Borra el Flag de interrupcion del DMA Canal 1
+
+    // Verifica cual banco de memoria RAM esta empleando el DMA1, A -> 0 o el B -> 1
+    if(DMACS1bits.PPST1)
+        VectorCopy(32, (fractional *) DAC_BufferA, temp);
+    else
+        VectorCopy(32, (fractional *) DAC_BufferB, temp); 
+}
