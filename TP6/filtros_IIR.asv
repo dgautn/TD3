@@ -6,7 +6,7 @@ close all; % cierra las ventanas de imagen
 
 %% especificaciones:
 
-fs = 39062.5; % [Hz] frecuencia de muestreo
+fs = 39062; % [Hz] frecuencia de muestreo
 
 fpb_hz = 500;       % [Hz] pasa bajos
 fpa_hz = 3000;      % [Hz] pasa altos
@@ -23,6 +23,7 @@ fpband_pb = 2 * fpban_h_hz / fs; % /
 
 imp = zeros(1, 4 * fs); % \__ funcion impulso con un vector de 4 segundos
 imp(1) = 1;             % /
+
 %% pasa bajos
 
 [Bpb, Apb] = cheby1 (N, RP, fpb, 'low'); % funcion del filtro Chebyshev tipo I
@@ -43,10 +44,10 @@ Hdb_pa = mag2db (abs (Hpa (1 : fs/2))); % convierte a dB el valor absoluto de la
 
 %% pasa banda
 
-[Bpband_l, Apband_l] = cheby1 (N, RP, fpband_l, 'high'); % funcion del filtro Chebyshev tipo I
+[Bpband_l, Apband_l] = cheby1 (N, RP, fpband_pa, 'high'); % funcion del filtro Chebyshev tipo I
+                                                          % orden, ripple, fc, tipo
+[Bpband_h, Apband_h] = cheby1 (N, RP, fpband_pb, 'low'); % funcion del filtro Chebyshev tipo I
                                                          % orden, ripple, fc, tipo
-[Bpband_h, Apband_h] = cheby1 (N, RP, fpband_h, 'low'); % funcion del filtro Chebyshev tipo I
-                                                        % orden, ripple, fc, tipo
 
 hpband_l = filter (Bpband_l, Apband_l, imp); % evalua la respuesta al impulso del filtro pasa alto
 hpband_h = filter (Bpband_h, Apband_h, imp); % evalua la respuesta al impulso del filtro pasa bajo
@@ -78,14 +79,14 @@ Hdb_pband4 = mag2db (abs (Hpband4 (1 : fs/2))); % convierte a dB el valor absolu
 
 %% Graficos
 
-frec = (0 : 1 : (fs/2)-1 ); % vector con los valores de frecuencia (el primer elemento es 0Hz)
-figure('name','Guia 6 ejercicio 2.1','Units','normalized','Position',[0 0 1 1]); % pantalla completa
-subplot(2,2,1);  % subplot (filas, columnas, indice)
-plot (frec, Hdb, 'linewidth', 1.5); % grafica de la respuesta al impulso
-xlim([0 127]); % limites de los ejes
-grid on;
-grid minor;
-xlabel ('Frecuencia [Hz]'); % etiqueta eje X
-ylabel ('Magnitud [dB]');  % etiqueta eje y
-title ('Filtro Butterworth'); % titulo
+%frec = (0 : 1 : (fs/2)-1 ); % vector con los valores de frecuencia (el primer elemento es 0Hz)
+%figure('name','Guia 6 ejercicio 2.1 - Filtros Chebyshev tipo I de segundo orden','Units','normalized','Position',[0 0 1 1]); % pantalla completa
+%subplot(2,3,1);  % subplot (filas, columnas, indice)
+%plot (frec, Hdb_pb, 'linewidth', 1.5); % grafica de la respuesta al impulso
+%xlim([0 127]); % limites de los ejes
+%grid on;
+%grid minor;
+%xlabel ('Frecuencia [Hz]'); % etiqueta eje X
+%ylabel ('Magnitud [dB]');  % etiqueta eje y
+%title ('Filtro pasa bajos - 1 etapa'); % titulo
 
