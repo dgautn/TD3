@@ -5,7 +5,7 @@
 /* TODO Application specific user parameters used in user.c may go here */
 
 #define ALIGNED 1024
-#define TAPS     400 
+#define TAPS     399 
 
 /******************************************************************************/
 /* User Function Prototypes                                                   */
