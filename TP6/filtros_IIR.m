@@ -83,8 +83,9 @@ Hdb_pband4 = mag2db (abs (Hpband4 (1 : fs/2))); % convierte a dB el valor absolu
 frec = (0 : 1 : (fs/2)-1 ); % vector con los valores de frecuencia (el primer elemento es 0Hz)
 figure('name','Guia 6 ejercicio 2.1 - Filtros Chebyshev tipo I de segundo orden','Units','normalized','Position',[0 0 1 1]); % pantalla completa
 subplot(2,3,1);  % subplot (filas, columnas, indice)
-plot (frec, Hdb_pb, 'linewidth', 1.5); % grafica de la respuesta al impulso
-xlim([0 5000]); % limites de los ejes
+semilogx (frec, Hdb_pb, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 10000]); % limites de los ejes
+ylim([-30 0]); % limites de los ejes
 grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
@@ -93,8 +94,9 @@ title ('Filtro pasa bajos - 1 etapa'); % titulo
 
 % pasa altos - 1 etapa
 subplot(2,3,2);  % subplot (filas, columnas, indice)
-plot (frec, Hdb_pa, 'linewidth', 1.5); % grafica de la respuesta al impulso
-xlim([0 5000]); % limites de los ejes
+semilogx (frec, Hdb_pa, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 10000]); % limites de los ejes
+ylim([-30 0]); % limites de los ejes
 grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
@@ -103,8 +105,9 @@ title ('Filtro pasa altos - 1 etapa'); % titulo
 
 % pasa banda - 1 etapa
 subplot(2,3,3);  % subplot (filas, columnas, indice)
-plot (frec, Hdb_pband, 'linewidth', 1.5); % grafica de la respuesta al impulso
-xlim([0 5000]); % limites de los ejes
+semilogx (frec, Hdb_pband, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 10000]); % limites de los ejes
+ylim([-30 0]); % limites de los ejes
 grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
@@ -113,8 +116,9 @@ title ('Filtro pasa banda - 1 etapa'); % titulo
 
 % pasa bajos - 4 etapas
 subplot(2,3,4);  % subplot (filas, columnas, indice)
-plot (frec, Hdb_pb4, 'linewidth', 1.5); % grafica de la respuesta al impulso
-xlim([0 5000]); % limites de los ejes
+semilogx (frec, Hdb_pb4, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 10000]); % limites de los ejes
+ylim([-30 0]); % limites de los ejes
 grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
@@ -123,8 +127,9 @@ title ('Filtro pasa bajos - 4 etapas'); % titulo
 
 % pasa altos - 4 etapas
 subplot(2,3,5);  % subplot (filas, columnas, indice)
-plot (frec, Hdb_pa4, 'linewidth', 1.5); % grafica de la respuesta al impulso
-xlim([0 5000]); % limites de los ejes
+semilogx (frec, Hdb_pa4, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 10000]); % limites de los ejes
+ylim([-30 0]); % limites de los ejes
 grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
@@ -133,8 +138,9 @@ title ('Filtro pasa altos - 4 etapas'); % titulo
 
 % pasa banda - 4 etapas
 subplot(2,3,6);  % subplot (filas, columnas, indice)
-plot (frec, Hdb_pband4, 'linewidth', 1.5); % grafica de la respuesta al impulso
-xlim([0 5000]); % limites de los ejes
+semilogx (frec, Hdb_pband4, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 10000]); % limites de los ejes
+ylim([-30 0]); % limites de los ejes
 grid on;
 grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
