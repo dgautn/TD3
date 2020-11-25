@@ -111,3 +111,33 @@ xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Magnitud [dB]');  % etiqueta eje y
 title ('Filtro pasa banda - 1 etapa'); % titulo
 
+% pasa bajos - 4 etapas
+subplot(2,3,4);  % subplot (filas, columnas, indice)
+plot (frec, Hdb_pb4, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 5000]); % limites de los ejes
+grid on;
+grid minor;
+xlabel ('Frecuencia [Hz]'); % etiqueta eje X
+ylabel ('Magnitud [dB]');  % etiqueta eje y
+title ('Filtro pasa bajos - 4 etapas'); % titulo
+
+% pasa altos - 4 etapas
+subplot(2,3,5);  % subplot (filas, columnas, indice)
+plot (frec, Hdb_pa4, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 5000]); % limites de los ejes
+grid on;
+grid minor;
+xlabel ('Frecuencia [Hz]'); % etiqueta eje X
+ylabel ('Magnitud [dB]');  % etiqueta eje y
+title ('Filtro pasa altos - 4 etapas'); % titulo
+
+% pasa banda - 4 etapas
+subplot(2,3,6);  % subplot (filas, columnas, indice)
+plot (frec, Hdb_pband4, 'linewidth', 1.5); % grafica de la respuesta al impulso
+xlim([0 5000]); % limites de los ejes
+grid on;
+grid minor;
+xlabel ('Frecuencia [Hz]'); % etiqueta eje X
+ylabel ('Magnitud [dB]');  % etiqueta eje y
+title ('Filtro pasa banda - 4 etapas'); % titulo
+
