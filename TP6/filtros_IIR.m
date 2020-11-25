@@ -79,6 +79,7 @@ Hdb_pband4 = mag2db (abs (Hpband4 (1 : fs/2))); % convierte a dB el valor absolu
 
 %% Graficos
 
+% pasa bajos - 1 etapa
 frec = (0 : 1 : (fs/2)-1 ); % vector con los valores de frecuencia (el primer elemento es 0Hz)
 figure('name','Guia 6 ejercicio 2.1 - Filtros Chebyshev tipo I de segundo orden','Units','normalized','Position',[0 0 1 1]); % pantalla completa
 subplot(2,3,1);  % subplot (filas, columnas, indice)
@@ -90,6 +91,7 @@ xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Magnitud [dB]');  % etiqueta eje y
 title ('Filtro pasa bajos - 1 etapa'); % titulo
 
+% pasa altos - 1 etapa
 subplot(2,3,2);  % subplot (filas, columnas, indice)
 plot (frec, Hdb_pa, 'linewidth', 1.5); % grafica de la respuesta al impulso
 xlim([0 5000]); % limites de los ejes
@@ -99,6 +101,7 @@ xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Magnitud [dB]');  % etiqueta eje y
 title ('Filtro pasa altos - 1 etapa'); % titulo
 
+% pasa banda - 1 etapa
 subplot(2,3,3);  % subplot (filas, columnas, indice)
 plot (frec, Hdb_pband, 'linewidth', 1.5); % grafica de la respuesta al impulso
 xlim([0 5000]); % limites de los ejes
