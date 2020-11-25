@@ -68,6 +68,14 @@ hpband4 = hpband;
 %    hpband4 = conv (hpband4, hpband);
 %end
 
+for etapa = 1:3
+    hpb4 = filter (Bpb, Apb, hpb4); % Agrega 3 etapas pasa bajo
+    hpa4 = filter (Bpa, Apa, hpa);  % Agrega 3 etapas pasa alto
+    hpband_l = filter (Bpband_l, Apband_l, hpband_l); %Obtiene 4 etapas pb y pa para
+    hpband_h = filter (Bpband_h, Apband_h, hpband_h); %construir pasabanda de 4 etapas  
+end
+hpband4 = conv(hpband_l,hpband_h); % Obtiene pasabanda de 4 etapas
+
 Hpb4 = fft(hpb4, fs); % calcula la FFT
 Hdb_pb4 = mag2db (abs (Hpb4 (1 : fs/2))); % convierte a dB el valor absoluto de las muestras de f positiva
 
@@ -146,4 +154,11 @@ grid minor;
 xlabel ('Frecuencia [Hz]'); % etiqueta eje X
 ylabel ('Magnitud [dB]');  % etiqueta eje y
 title ('Filtro pasa banda - 4 etapas'); % titulo
+
+%% Vector de Coeficientes (ver coef.m)
+
+pasa_bajos = coef(Bpb, Apb) %pasa bajos
+pasa_altos = coef(Bpa, Apa) %pasa altos
+pasa_banda_l = coef(Bpband_l, Apband_l) %pasa Banda inf
+pasa_banda_h = coef(Bpband_h, Apband_h) %pasa Banda sup
 
