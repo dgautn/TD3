@@ -3,19 +3,17 @@
 clc; % borra la consola
 clear all; % borra todas las variables
 close all; % cierra las ventanas de imagen
-%pkg load control; % paquete con 'mag2db'
-%pkg load signal; % ventanas
 
 % especificaciones:
 fs = 39062.5; % [Hz] frecuencia de muestreo
-fc1_hz = 2800; % [Hz]  ^\__banda e transicion
-fc2_hz = 3200; % [Hz] _/
+fc1_hz = 2800; % [Hz] \__ banda e transicion
+fc2_hz = 3200; % [Hz] /
 % Sba = 45; % [dB] (min) -45 [dB]
 
 % se elige la ventana Hamming - Amplitud del pico mayor: -53 dB
 
-fc1 = 2 * fc1_hz / fs; %'^\_se convierte a frecuencias digitales
-fc2 = 2 * fc2_hz / fs; % _/
+fc1 = 2 * fc1_hz / fs; % \__ se convierte a frecuencias digitales
+fc2 = 2 * fc2_hz / fs; % /
 
 B = 0.035; % Este valor es arbitrario, no hay especificacion
 
