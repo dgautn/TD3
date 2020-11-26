@@ -6,14 +6,6 @@ Trabajo Practico no. 6
     Sebastián Cueva Bono  - leg. 56016
     Darío Gustavo Albarrán  - leg. 43143
 
-Codigo agregado por ejercicio:
-
-Ejercicio 1.2:
-    main.c              - Declaracion de la variable "filtro", tipo FIRStruct
-                        - Declaracion de variables "coeffs" "delay" "temp" tipo fractional
-    user.h              - Constantes TAPS ALIGNED SAMPLES
-
-
 
 FILES INCLUDED IN THE PROJECT TREE:
 

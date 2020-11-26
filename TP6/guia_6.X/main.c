@@ -114,6 +114,18 @@ fractional temp_pband[32];
 fractional temp_outiir[32];
 
 
+/* -------------------------------- FFT --------------------------------------*/
+fractcomplex origen[32]__attribute__((space(ymemory), aligned(128)));  // origen de datos
+fractcomplex destino[32]__attribute__((space(ymemory), aligned(128))); // destino de datos
+fractcomplex giro[16]__attribute__((space(xmemory), aligned(64)));     // factores de giro
+
+int cnt = 0;    // contador de ciclos para actualizacion de muestras FFT
+int bit_tx = 1; // indice para enviar los bits del frame_tx
+
+fractional temp_fft[32];
+fractional frame_tx[35];
+
+
 /* ---------------------------------------------------------------------------*/
 unsigned int DAC_BufferA[32]__attribute__((space(dma))) = {0}; 
 unsigned int DAC_BufferB[32]__attribute__((space(dma))) = {0};

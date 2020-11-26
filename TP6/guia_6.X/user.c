@@ -37,6 +37,8 @@ extern fractional delay2_pa[4]__attribute__((space(ymemory), far));
 extern fractional delay1_pband[8]__attribute__((space(ymemory), far));
 extern fractional delay2_pband[8]__attribute__((space(ymemory), far));
 
+extern fractcomplex giro[16]__attribute__((space(xmemory), aligned(64)));
+
 extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
 extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
 extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
@@ -64,6 +66,12 @@ void InitApp(void)
     #if F_IIR
         Filtro_IIR();
         ConfigUART();
+    #endif
+    #if T_FFT
+        TwidFactorInit(5, &giro[0], 0); // inicializa vector de factores de giro
+        ConfigUART_TX();
+        /* Esperar al menos 105us antes de enviar el primer caracter */
+        DELAY_105uS
     #endif
     ConfigTimer5();
     ConfigDAC();
@@ -194,7 +202,7 @@ void ConfigADC(void)
     AD1CON1bits.ADON = 1;     // Enciende el ADC
 }
 
-/* Funcion para configurar el DMA canal 1 */
+/* Funcion para configurar el DMA canal 1 para el DAC canal izq*/
 void ConfigDMA1(void)
 {
         /* DMA Canal 1 configurado para DAC1LDAT */                                                          
@@ -241,8 +249,7 @@ void ConfigDMA2(void)
   
 }
 
-/* Función para inicializar el puerto serie */
-
+/* Función para inicializar el puerto serie para RX */
 void ConfigUART(void)
 {
     U1MODEbits.STSEL = 0;       // 1 Bit de stop
@@ -262,5 +269,27 @@ void ConfigUART(void)
 
     U1MODEbits.UARTEN = 1;      // Habilita UART
     U1STAbits.UTXEN = 1;        // Habilita la transmisión UART
+}
 
+/* Función para inicializar el puerto serie para TX */
+void ConfigUART_TX(void)
+{
+    U1MODEbits.STSEL = 0;       // 1 Bit de stop
+    U1MODEbits.PDSEL = 0;       // Sin paridad, 8 bits de datos
+    U1MODEbits.ABAUD = 0;       // Auto-Baud deshabilitado
+    U1MODEbits.BRGH = 0;        // Modo de velocidad estándar
+
+    U1BRG = BRGVAL;             // Velocidad en baudios de 9600
+
+    U1STAbits.UTXISEL0 = 0;      // Interrumpción después de transmitir un carácter TX
+    U1STAbits.UTXISEL1 = 0;
+    
+    IEC0bits.U1TXIE = 1;        // Habilita la interrupción
+
+    // Remapeo de pines
+    RPINR18bits.U1RXR = 5;      // Mapea el pin RP5 al RX de la UART
+    RPOR3bits.RP6R = 3;         // Mapea el pin RP6 al TX de la UART
+
+    U1MODEbits.UARTEN = 1;      // Habilita UART
+    U1STAbits.UTXEN = 1;        // Habilita la transmisión UART
 }

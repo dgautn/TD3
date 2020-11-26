@@ -21,7 +21,6 @@
 /******************************************************************************/
 /* Variables globales definidas en main.c                                                            */
 /******************************************************************************/
-
 extern FIRStruct filtro;
 extern fractional temp[32];
 
@@ -34,6 +33,13 @@ extern fractional temp_pa[32];
 extern fractional temp_pband[32];
 extern fractional temp_outiir[32];
 
+extern fractcomplex origen[32]__attribute__((space(ymemory), aligned(128)));
+extern fractcomplex destino[32]__attribute__((space(ymemory), aligned(128)));
+extern fractcomplex giro[16]__attribute__((space(xmemory), aligned(64)));
+extern fractional temp_fft[32];
+extern fractional frame_tx[35];
+extern int cnt;
+extern int bit_tx;
 
 extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
 extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
@@ -181,6 +187,41 @@ void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
         VectorAdd(32,temp_outiir,temp_pb,temp_pband); // suma las tres bandas
         VectorAdd(32,temp_outiir,temp_outiir,temp_pa);
     #endif
+    #if T_FFT
+        int n = 0;
+        if (cnt == F_MUEST) {
+            // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
+            if(DMACS1bits.PPST2)
+                VectorCopy(32, temp_fft, (fractional *) DAC_BufferA);
+            else
+                VectorCopy(32, temp_fft, (fractional *) DAC_BufferB);
+            for (n=0;n<32;n++) {
+                origen[n].real = temp_fft[n];
+                origen[n].imag = 0;
+            }
+            FFTComplex(5, destino, origen, giro, 0xFF00);
+            
+            /************ Paquete para transmitir ****************/
+            // Cabecera
+            frame_tx[0] = 0xAA;
+            // Parte Real
+            for (n=1;n<17;n++) {
+                frame_tx[n] = destino[n].real >> 8;
+            }
+            // Separador
+            frame_tx[17] = 0x80;
+            // Parte Imaginaria
+            for (n=18;n<34;n++) {
+                frame_tx[n] = destino[n].imag >> 8;
+            }
+            // Fin de paquete
+            frame_tx[34] = 0x55;
+            /*****************************************************/
+            U1TXREG = frame_tx[0]; // Inicia la transmision por la UART
+            cnt = 0;
+        }
+        else cnt ++;
+    #endif
 }
 
 /* Codigo que se ejecuta con la interrupcion _DMA1Interrupt */
@@ -241,3 +282,13 @@ void __attribute__((interrupt,auto_psv)) _U1RXInterrupt(void)
     #endif
 }
 
+/* Codigo que se ejecuta con la interrupcion _U1TXInterrupt (TX UART) */
+void __attribute__((interrupt,auto_psv)) _U1TXInterrupt(void)               
+{
+    IFS0bits.U1TXIF = 0;                // Clear TX Interrupt flag
+    if (bit_tx < 35) {
+        U1TXREG = frame_tx[bit_tx];
+        bit_tx ++;
+    }
+        else bit_tx = 1;
+}
