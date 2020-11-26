@@ -26,7 +26,7 @@
 
 // Constantes usadas en el ejerccio de FFT
 #define DELAY_105uS asm volatile ("REPEAT, #4201"); Nop();  // 105us delay
-#define F_MUEST 610     // Para determinar la frec. de muestreo de FFT
+#define F_MUEST 2610     // Para determinar la frec. de muestreo de FFT
                         // (1 / 39062.5Hz) * 32 muestras = 819.2us
                         // para mostrar cada 1s -> 610
 

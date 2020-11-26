@@ -57,6 +57,7 @@ void InitApp(void)
 
     /* Setup analog functionality and port direction */
     TRISBbits.TRISB2 = 0;   /* led1 */
+    TRISBbits.TRISB3 = 0;   /* led2 */
     TRISBbits.TRISB7 = 1;   /* boton1 */
 
     /* Initialize peripherals */
@@ -72,6 +73,7 @@ void InitApp(void)
         ConfigUART_TX();
         /* Esperar al menos 105us antes de enviar el primer caracter */
         DELAY_105uS
+        //U1TXREG = 'a';
     #endif
     ConfigTimer5();
     ConfigDAC();
@@ -219,7 +221,7 @@ void ConfigDMA1(void)
     DMA1STB = __builtin_dmaoffset(DAC_BufferB);                                                     
 
     IFS0bits.DMA1IF = 0;     /* Borra el flag de interrupción de DMA */
-    IEC0bits.DMA1IE = 0;     /* No Habilita el bit de interrupción de DMA */
+    IEC0bits.DMA1IE = 1;     /* Habilita el bit de interrupción de DMA */
 
     DMA1CONbits.CHEN = 1;    /* Habilita el canal DMA 1 */
 
@@ -243,7 +245,7 @@ void ConfigDMA2(void)
     DMA2STB = __builtin_dmaoffset(ADC_BufferA);                                                    
 
     IFS1bits.DMA2IF = 0;     /* Borra el flag de interrupción de DMA */
-    IEC1bits.DMA2IE = 0;     /* No Habilita el bit de interrupción de DMA */
+    IEC1bits.DMA2IE = 1;     /* Habilita el bit de interrupción de DMA */
 
     DMA2CONbits.CHEN = 1;    /* Habilita el canal DMA 2 */
   

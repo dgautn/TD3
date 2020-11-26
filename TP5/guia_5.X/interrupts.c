@@ -137,7 +137,7 @@ void __attribute__((interrupt,auto_psv)) _T3Interrupt(void)
 {
     IFS0bits.T3IF = 0;        // Clear Timer3 Interrupt Flag
     LATBbits.LATB3 = ~LATBbits.LATB3; // Cambia el estado del led2
-    LATCbits.LATC3 = ~LATCbits.LATC3;
+    LATCbits.LATC3 = ~LATCbits.LATC3; // Para el osciloscopio
 }
 
 /****************************** Ejercicio 3.1 *********************************/

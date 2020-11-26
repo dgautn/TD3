@@ -125,6 +125,12 @@ int bit_tx = 1; // indice para enviar los bits del frame_tx
 fractional temp_fft[32];
 fractional frame_tx[35];
 
+fractional prueba[32] = {
+    0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,
+    0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,
+    0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,
+    0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000
+};
 
 /* ---------------------------------------------------------------------------*/
 unsigned int DAC_BufferA[32]__attribute__((space(dma))) = {0}; 
@@ -146,9 +152,16 @@ int16_t main(void)
     InitApp();
 
     /* TODO <INSERT USER APPLICATION CODE HERE> */
-
+    //int n = 0;
     while(1)
     {
         LATBbits.LATB2 = PORTBbits.RB7; // Enciende led1 si se pulsa boton1
+        //VectorCopy(32, temp_fft, prueba);
+        //for (n=0;n<32;n++) {
+        //        origen[n].real = temp_fft[n];
+        //        origen[n].imag = 0;
+        //}
+        //FFTComplex(5, destino, origen, giro, 0xFF00);
+            
     }
 }

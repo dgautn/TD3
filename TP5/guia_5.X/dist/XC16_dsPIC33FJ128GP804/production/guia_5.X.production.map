@@ -104,10 +104,10 @@ section                    address   length (PC units)   length (bytes) (dec)
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
 .ndata                       0x800                   0             0x2  (2)
-_0x7f764ca255005fbc5d9b     0x4700                   0            0x40  (64)
-_0x7f764ca254605fbc5d9b     0x4740                   0            0x40  (64)
-_0x7f764ca253c05fbc5d9b     0x4780                   0            0x40  (64)
-_0x7f764ca253205fbc5d9b     0x47c0                   0            0x40  (64)
+_0x7fa9903f35005fc00584     0x4700                   0            0x40  (64)
+_0x7fa9903f34605fc00584     0x4740                   0            0x40  (64)
+_0x7fa9903f33c05fc00584     0x4780                   0            0x40  (64)
+_0x7fa9903f33205fc00584     0x47c0                   0            0x40  (64)
 
                  Total "data" memory used (bytes):          0x102  (258) 1%
 
@@ -317,17 +317,17 @@ usercode
 
 __FBS             0xf80000          0x2
  *(__FBS.sec*)
- __FBS.sec        0xf80000          0x2 /CW/_FBSà¡˝
+ __FBS.sec        0xf80000          0x2 /CW/_FBSàq4
                   0xf80000                  __FBS.sec
 
 __FSS             0xf80002          0x2
  *(__FSS.sec*)
- __FSS.sec        0xf80002          0x2 /CW/_FSSò±˝
+ __FSS.sec        0xf80002          0x2 /CW/_FSSòa4
                   0xf80002                  __FSS.sec
 
 __FGS             0xf80004          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf80004          0x2 /CW/_FGS»Ì¸
+ __FGS.sec        0xf80004          0x2 /CW/_FGS»ù3
                   0xf80004                  __FGS.sec
 
 __FOSCSEL
@@ -1436,9 +1436,9 @@ LOAD /opt/microchip/xc16/v1.60/bin/bin/../../lib/libm-elf.a
 LOAD /opt/microchip/xc16/v1.60/bin/bin/../../lib/liblega-c-elf.a
 END GROUP
 OUTPUT(dist/XC16_dsPIC33FJ128GP804/production/guia_5.X.production.elf elf32-pic30)
-LOAD /CW/_FGS»Ì¸
-LOAD /CW/_FSSò±˝
-LOAD /CW/_FBSà¡˝
+LOAD /CW/_FGS»ù3
+LOAD /CW/_FSSòa4
+LOAD /CW/_FBSàq4
 LOAD data_init
 
 .debug_pubtypes
@@ -1475,27 +1475,27 @@ __c30_signature
  __c30_signature
                   0x0005e7          0x6 /opt/microchip/xc16/v1.60/bin/bin/../../lib/liblega-pic30-elf.a(data_init_standard.o)
 
-_0x7f764ca253205fbc5d9b
+_0x7fa9903f33205fc00584
                     0x47c0         0x40
- _0x7f764ca253205fbc5d9b
+ _0x7fa9903f33205fc00584
                     0x47c0         0x40 build/XC16_dsPIC33FJ128GP804/production/main.o
                     0x47c0                  _RightBufferA
 
-_0x7f764ca253c05fbc5d9b
+_0x7fa9903f33c05fc00584
                     0x4780         0x40
- _0x7f764ca253c05fbc5d9b
+ _0x7fa9903f33c05fc00584
                     0x4780         0x40 build/XC16_dsPIC33FJ128GP804/production/main.o
                     0x4780                  _RightBufferB
 
-_0x7f764ca254605fbc5d9b
+_0x7fa9903f34605fc00584
                     0x4740         0x40
- _0x7f764ca254605fbc5d9b
+ _0x7fa9903f34605fc00584
                     0x4740         0x40 build/XC16_dsPIC33FJ128GP804/production/main.o
                     0x4740                  _LeftBufferA
 
-_0x7f764ca255005fbc5d9b
+_0x7fa9903f35005fc00584
                     0x4700         0x40
- _0x7f764ca255005fbc5d9b
+ _0x7fa9903f35005fc00584
                     0x4700         0x40 build/XC16_dsPIC33FJ128GP804/production/main.o
                     0x4700                  _LeftBufferB
 

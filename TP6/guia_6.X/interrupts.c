@@ -40,6 +40,7 @@ extern fractional temp_fft[32];
 extern fractional frame_tx[35];
 extern int cnt;
 extern int bit_tx;
+extern fractional prueba[32];
 
 extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
 extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
@@ -191,9 +192,14 @@ void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
         int n = 0;
         if (cnt == F_MUEST) {
             // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
-            if(DMACS1bits.PPST2)
+            if(DMACS1bits.PPST2) 
+            //{
+            //    LATBbits.LATB3 = ~LATBbits.LATB3;
+            //    VectorCopy(32, temp_fft, prueba);
+            //}
                 VectorCopy(32, temp_fft, (fractional *) DAC_BufferA);
             else
+                //VectorCopy(32, temp_fft, prueba);
                 VectorCopy(32, temp_fft, (fractional *) DAC_BufferB);
             for (n=0;n<32;n++) {
                 origen[n].real = temp_fft[n];
@@ -205,14 +211,14 @@ void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
             // Cabecera
             frame_tx[0] = 0xAA;
             // Parte Real
-            for (n=1;n<17;n++) {
-                frame_tx[n] = destino[n].real >> 8;
+            for (n=0;n<16;n++) {
+                frame_tx[n+1] = destino[n].real >> 8;
             }
             // Separador
             frame_tx[17] = 0x80;
             // Parte Imaginaria
-            for (n=18;n<34;n++) {
-                frame_tx[n] = destino[n].imag >> 8;
+            for (n=0;n<16;n++) {
+                frame_tx[n+18] = destino[n].imag >> 8;
             }
             // Fin de paquete
             frame_tx[34] = 0x55;
