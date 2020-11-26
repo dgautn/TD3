@@ -58,9 +58,9 @@ Hdb_pband = mag2db (abs (Hpband (1 : fs/2))); % convierte a dB el valor absoluto
 
 %% combinacion en serie de 4 etapas 
 
-hpb4 = hpb;
-hpa4 = hpa;
-hpband4 = hpband;
+%hpb4 = hpb;
+%hpa4 = hpa;
+%hpband4 = hpband;
 
 %for n = 1:4
 %    hpb4 = conv (hpb4, hpb);
@@ -69,20 +69,20 @@ hpband4 = hpband;
 %end
 
 for etapa = 1:3
-    hpb4 = filter (Bpb, Apb, hpb4); % Agrega 3 etapas pasa bajo
-    hpa4 = filter (Bpa, Apa, hpa);  % Agrega 3 etapas pasa alto
+    hpb = filter (Bpb, Apb, hpb); % Agrega 3 etapas pasa bajo
+    hpa = filter (Bpa, Apa, hpa);  % Agrega 3 etapas pasa alto
     hpband_l = filter (Bpband_l, Apband_l, hpband_l); %Obtiene 4 etapas pb y pa para
     hpband_h = filter (Bpband_h, Apband_h, hpband_h); %construir pasabanda de 4 etapas  
 end
-hpband4 = conv(hpband_l,hpband_h); % Obtiene pasabanda de 4 etapas
+hpband = conv(hpband_l,hpband_h); % Obtiene pasabanda de 4 etapas
 
-Hpb4 = fft(hpb4, fs); % calcula la FFT
+Hpb4 = fft(hpb, fs); % calcula la FFT
 Hdb_pb4 = mag2db (abs (Hpb4 (1 : fs/2))); % convierte a dB el valor absoluto de las muestras de f positiva
 
-Hpa4 = fft(hpa4, fs); % calcula la FFT
+Hpa4 = fft(hpa, fs); % calcula la FFT
 Hdb_pa4 = mag2db (abs (Hpa4 (1 : fs/2))); % convierte a dB el valor absoluto de las muestras de f positiva
 
-Hpband4 = fft(hpband4, fs); % calcula la FFT
+Hpband4 = fft(hpband, fs); % calcula la FFT
 Hdb_pband4 = mag2db (abs (Hpband4 (1 : fs/2))); % convierte a dB el valor absoluto de las muestras de f positiva
 
 %% Graficos
