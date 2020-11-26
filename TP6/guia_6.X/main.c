@@ -25,6 +25,7 @@
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
+/* --------------------------- Filtro FIR ------------------------------------*/
 FIRStruct filtro;
 fractional coeffs[TAPS]__attribute__((space(xmemory), far, aligned(ALIGNED))) = 
         {0xffff,0xfffe,0xffff,0xffff,0x0000,0x0001,0x0002,0x0003,0x0003,0x0002,
@@ -70,11 +71,54 @@ fractional coeffs[TAPS]__attribute__((space(xmemory), far, aligned(ALIGNED))) =
 fractional delay[TAPS]__attribute__((space(ymemory), far, aligned(ALIGNED)));
 fractional temp[32];
 
-fractional DAC_BufferA[32]__attribute__((space(dma))) = {0}; 
-fractional DAC_BufferB[32]__attribute__((space(dma))) = {0};
-fractional ADC_BufferA[32]__attribute__((space(dma)));
-fractional ADC_BufferB[32]__attribute__((space(dma)));
+/* --------------------------- Filtro FIR ------------------------------------*/
+IIRTransposedStruct filtro_pb, filtro_pa, filtro_pband;
+//coeficioentes de los filtros
+fractional coeffs_pb[20]__attribute__((space(xmemory))) = {
+    0x004f,0x009e,0x73a7,0x004f,0xcb19,
+    0x004f,0x009e,0x73a7,0x004f,0xcb19,
+    0x004f,0x009e,0x73a7,0x004f,0xcb19,
+    0x004f,0x009e,0x73a7,0x004f,0xcb19
+};
+fractional coeffs_pa[20]__attribute__((space(xmemory))) = {
+    0x34f8,0x9610,0x6935,0x34f8,0xd2e1,
+    0x34f8,0x9610,0x6935,0x34f8,0xd2e1,
+    0x34f8,0x9610,0x6935,0x34f8,0xd2e1,
+    0x34f8,0x9610,0x6935,0x34f8,0xd2e1
+};
+fractional coeffs_pband[40]__attribute__((space(xmemory))) = {
+    0x3cc2,0x867c,0x7ace,0x3cc2,0xc4f6,
+    0x3cc2,0x867c,0x7ace,0x3cc2,0xc4f6,
+    0x3cc2,0x867c,0x7ace,0x3cc2,0xc4f6,
+    0x3cc2,0x867c,0x7ace,0x3cc2,0xc4f6,
+    0x03c0,0x0780,0x4f5c,0x03c0,0xe178,
+    0x03c0,0x0780,0x4f5c,0x03c0,0xe178,
+    0x03c0,0x0780,0x4f5c,0x03c0,0xe178,
+    0x03c0,0x0780,0x4f5c,0x03c0,0xe178
+};
 
+fractional delay1_pb[4]__attribute__((space(ymemory), far)); //tamano delay igual secciones filtro
+fractional delay2_pb[4]__attribute__((space(ymemory), far));
+fractional delay1_pa[4]__attribute__((space(ymemory), far));
+fractional delay2_pa[4]__attribute__((space(ymemory), far));
+fractional delay1_pband[8]__attribute__((space(ymemory), far));
+fractional delay2_pband[8]__attribute__((space(ymemory), far));
+
+fractional gan_bajo = 0x4000;       // factores de escala para ecualizar
+fractional gan_alto = 0x4000;       // inicializado en 0.5
+fractional gan_medio = 0x4000;
+
+fractional temp_pb[32];         // Vectores temporales
+fractional temp_pa[32];
+fractional temp_pband[32];
+fractional temp_outiir[32];
+
+
+/* ---------------------------------------------------------------------------*/
+unsigned int DAC_BufferA[32]__attribute__((space(dma))) = {0}; 
+unsigned int DAC_BufferB[32]__attribute__((space(dma))) = {0};
+unsigned int ADC_BufferA[32]__attribute__((space(dma)));
+unsigned int ADC_BufferB[32]__attribute__((space(dma)));
 
 /******************************************************************************/
 /* Main Program                                                               */

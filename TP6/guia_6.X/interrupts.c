@@ -15,7 +15,8 @@
 
 #include <stdint.h>        /* Includes uint16_t definition   */
 #include <stdbool.h>       /* Includes true/false definition */
-#include <dsp.h>             /* Libreria para DSP                             */
+#include <dsp.h>           /* Libreria para DSP              */
+#include "user.h"          /* User funct/params, such as InitApp */
 
 /******************************************************************************/
 /* Variables globales definidas en main.c                                                            */
@@ -24,10 +25,20 @@
 extern FIRStruct filtro;
 extern fractional temp[32];
 
-extern fractional DAC_BufferA[32]__attribute__((space(dma)));
-extern fractional DAC_BufferB[32]__attribute__((space(dma)));
-extern fractional ADC_BufferA[32]__attribute__((space(dma)));
-extern fractional ADC_BufferB[32]__attribute__((space(dma)));
+extern IIRTransposedStruct filtro_pb, filtro_pa, filtro_pband;
+extern fractional gan_bajo;
+extern fractional gan_alto;
+extern fractional gan_medio;
+extern fractional temp_pb[32];
+extern fractional temp_pa[32];
+extern fractional temp_pband[32];
+extern fractional temp_outiir[32];
+
+
+extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
+extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
+extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
+extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
 
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
@@ -138,25 +149,95 @@ extern fractional ADC_BufferB[32]__attribute__((space(dma)));
 
 /* TODO Add interrupt routine code here. */
 
+/* Codigo que se ejecuta con la interrupcion _DMA2Interrupt */
 void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
 {
     IFS1bits.DMA2IF = 0; // Borra el Flag de interrupcion del DMA Canal 2 
 
-    // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
-    if(DMACS1bits.PPST2)                               
-        FIR(32, temp, (fractional *)ADC_BufferA, &filtro);
-    else
-        FIR(32, temp, (fractional *)ADC_BufferB, &filtro);
+    #if F_FIR
+        // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
+        if(DMACS1bits.PPST2)                               
+            FIR(32, temp, (fractional *)ADC_BufferA, &filtro);
+        else
+            FIR(32, temp, (fractional *)ADC_BufferB, &filtro);
+    #endif
+    #if F_IIR
+        // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
+        if(DMACS1bits.PPST2) {                              
+            IIRTransposed(32, temp_pb, (fractional *)ADC_BufferA, &filtro_pb);
+            IIRTransposed(32, temp_pa, (fractional *)ADC_BufferA, &filtro_pa);
+            IIRTransposed(32, temp_pband, (fractional *)ADC_BufferA, &filtro_pband);
+        }
+        else {
+            IIRTransposed(32, temp_pb, (fractional *)ADC_BufferB, &filtro_pb);
+            IIRTransposed(32, temp_pa, (fractional *)ADC_BufferB, &filtro_pa);
+            IIRTransposed(32, temp_pband, (fractional *)ADC_BufferB, &filtro_pband);
+        }
+        
+        VectorScale(32,temp_pb,temp_pb,gan_bajo); // aplica la ganancia a cada filtro
+        VectorScale(32,temp_pa,temp_pa,gan_alto);
+        VectorScale(32,temp_pband,temp_pband,gan_medio);
+        
+        VectorAdd(32,temp_outiir,temp_pb,temp_pband); // suma las tres bandas
+        VectorAdd(32,temp_outiir,temp_outiir,temp_pa);
+    #endif
 }
 
-
+/* Codigo que se ejecuta con la interrupcion _DMA1Interrupt */
 void __attribute__((interrupt, no_auto_psv))_DMA1Interrupt(void)
 {
     IFS0bits.DMA1IF = 0; // Borra el Flag de interrupcion del DMA Canal 1
 
-    // Verifica cual banco de memoria RAM esta empleando el DMA1, A -> 0 o el B -> 1
-    if(DMACS1bits.PPST1)
-        VectorCopy(32, (fractional *) DAC_BufferA, temp);
-    else
-        VectorCopy(32, (fractional *) DAC_BufferB, temp); 
+    #if F_FIR
+        // Verifica cual banco de memoria RAM esta empleando el DMA1, A -> 0 o el B -> 1
+        if(DMACS1bits.PPST1)
+            VectorCopy(32, (fractional *) DAC_BufferA, temp);
+        else
+            VectorCopy(32, (fractional *) DAC_BufferB, temp); 
+    #endif
+    #if F_IIR
+        // Verifica cual banco de memoria RAM esta empleando el DMA1, A -> 0 o el B -> 1
+        if(DMACS1bits.PPST1)
+            VectorCopy(32, (fractional *) DAC_BufferA, temp_outiir);
+        else
+            VectorCopy(32, (fractional *) DAC_BufferB, temp_outiir); 
+    #endif
 }
+
+/* Codigo que se ejecuta con la interrupcion _U1RXInterrupt (RX UART) */
+void __attribute__((interrupt,auto_psv)) _U1RXInterrupt(void)               
+{
+    char rxchar;
+    IFS0bits.U1RXIF = 0;                // Clear U1RX Interrupt Flag
+    #if F_IIR
+        rxchar = U1RXREG;               // Recibe el caracter
+        switch (rxchar)
+    {
+        case ('Q'):
+            if (gan_bajo < GAN_MAX)
+                gan_bajo = gan_bajo + GAN_INC;
+            break;
+        case ('A'):
+            if (gan_bajo > GAN_MIN)
+                gan_bajo = gan_bajo - GAN_INC;
+            break;
+        case ('W'):
+            if (gan_medio < GAN_MAX)
+                gan_medio = gan_medio + GAN_INC;
+            break;
+        case ('S'):
+            if (gan_medio > GAN_MIN)
+                gan_medio = gan_medio - GAN_INC;
+            break;
+        case ('E'):
+            if (gan_alto < GAN_MAX)
+                gan_alto = gan_alto + GAN_INC;
+            break;
+        case ('D'):
+            if (gan_alto > GAN_MIN)
+                gan_alto = gan_alto - GAN_INC;
+            break;
+        }
+    #endif
+}
+

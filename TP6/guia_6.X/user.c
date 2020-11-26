@@ -26,10 +26,21 @@ extern FIRStruct filtro;
 extern fractional coeffs[TAPS]__attribute__((space(xmemory), aligned(ALIGNED)));
 extern fractional delay[TAPS]__attribute__((space(ymemory), aligned(ALIGNED)));
 
-extern fractional DAC_BufferA[32]__attribute__((space(dma)));
-extern fractional DAC_BufferB[32]__attribute__((space(dma)));
-extern fractional ADC_BufferA[32]__attribute__((space(dma)));
-extern fractional ADC_BufferB[32]__attribute__((space(dma)));
+extern IIRTransposedStruct filtro_pb, filtro_pa, filtro_pband;
+extern fractional coeffs_pb[20]__attribute__((space(xmemory)));
+extern fractional coeffs_pa[20]__attribute__((space(xmemory)));
+extern fractional coeffs_pband[40]__attribute__((space(xmemory)));
+extern fractional delay1_pb[4]__attribute__((space(ymemory), far));
+extern fractional delay2_pb[4]__attribute__((space(ymemory), far));
+extern fractional delay1_pa[4]__attribute__((space(ymemory), far));
+extern fractional delay2_pa[4]__attribute__((space(ymemory), far));
+extern fractional delay1_pband[8]__attribute__((space(ymemory), far));
+extern fractional delay2_pband[8]__attribute__((space(ymemory), far));
+
+extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
+extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
+extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
+extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
 
 
 /******************************************************************************/
@@ -47,22 +58,62 @@ void InitApp(void)
     TRISBbits.TRISB7 = 1;   /* boton1 */
 
     /* Initialize peripherals */
+    #if F_FIR 
+        Filtro_FIR();
+    #endif
+    #if F_IIR
+        Filtro_IIR();
+        ConfigUART();
+    #endif
+    ConfigTimer5();
+    ConfigDAC();
+    ConfigADC();
+    ConfigDMA1();
+    ConfigDMA2();
 }
 
+/* Funcion para cargar el filtro FIR */
 void Filtro_FIR(void)
 {
     filtro.numCoeffs = TAPS;             // Número de coeficientes del filtro (M)
-    filtro.coeffsBase = &coeffs;         // Dirección inicial del vector de coeficientes
+    filtro.coeffsBase = &coeffs[0];         // Dirección inicial del vector de coeficientes
     filtro.coeffsEnd = &((uint8_t *)coeffs)[TAPS*2-1];
                                          // Dirección final del vector de coeficientes
     filtro.coeffsPage = 0xFF00;          // Página de ubicación de coeficientes para RAM
-    filtro.delayBase = &delay;           // Dirección inicial del vector de retardos
+    filtro.delayBase = &delay[0];           // Dirección inicial del vector de retardos
     filtro.delayEnd = &((uint8_t *)delay)[TAPS*2-1];
                                          // Dirección final del vector de retardos
-    filtro.delay = &delay;               // Puntero a la dirección actual del vector de retardos
+    filtro.delay = &delay[0];               // Puntero a la dirección actual del vector de retardos
     FIRDelayInit(&filtro);    
 }
 
+/* Funcion para cargar los filtros IIR */
+void Filtro_IIR(void)
+{
+    filtro_pb.numSectionsLess1 = 3;    // Número de secciones menos 1
+    filtro_pb.coeffsBase = &coeffs_pb[0]; // Dirección de inicio del vector de coeficientes
+    filtro_pb.coeffsPage = 0xFF00;     // Página del vector de coeficientes (0xFF00 para RAM)
+    filtro_pb.delayBase1 = &delay1_pb[0]; // Dirección del vector de retardos 1
+    filtro_pb.delayBase2 = &delay2_pb[0]; // Dirección del vector de retardos 2
+    filtro_pb.finalShift = 0;          // Ganancia final del filtro, en potencia de 2, 2^0 = 1
+    IIRTransposedInit(&filtro_pb);
+    
+    filtro_pa.numSectionsLess1 = 3;    // Número de secciones menos 1
+    filtro_pa.coeffsBase = &coeffs_pa[0]; // Dirección de inicio del vector de coeficientes
+    filtro_pa.coeffsPage = 0xFF00;     // Página del vector de coeficientes (0xFF00 para RAM)
+    filtro_pa.delayBase1 = &delay1_pa[0]; // Dirección del vector de retardos 1
+    filtro_pa.delayBase2 = &delay2_pa[0]; // Dirección del vector de retardos 2
+    filtro_pa.finalShift = 0;          // Ganancia final del filtro, en potencia de 2, 2^0 = 1
+    IIRTransposedInit(&filtro_pa);
+   
+    filtro_pband.numSectionsLess1 = 3;       // Número de secciones menos 1
+    filtro_pband.coeffsBase = &coeffs_pband[0]; // Dirección de inicio del vector de coeficientes
+    filtro_pband.coeffsPage = 0xFF00;        // Página del vector de coeficientes (0xFF00 para RAM)
+    filtro_pband.delayBase1 = &delay1_pband[0]; // Dirección del vector de retardos 1
+    filtro_pband.delayBase2 = &delay2_pband[0]; // Dirección del vector de retardos 2
+    filtro_pband.finalShift = 0;             // Ganancia final del filtro, en potencia de 2, 2^0 = 1
+    IIRTransposedInit(&filtro_pband);
+}
 
 /* Funcion para inicializar el Timer5 */
 void ConfigTimer5(void)
@@ -110,37 +161,37 @@ void ConfigDAC(void)
 /* Funcion para configurar el ADC */
 void ConfigADC(void)
 {
-        AD1CON1bits.FORM = 3;   // Formato de salida de datos: fraccional con signo (formato Q15)
-        AD1CON1bits.SSRC = 4;   // El temporizador GP (Timer5 para ADC1, Timer3 para ADC2) compara, finaliza 
-                                // el muestreo e inicia la conversión
-        AD1CON1bits.ASAM = 1;   // Control de muestras ADC: el muestreo comienza inmediatamente después de la
-                                // conversión
-        AD1CON1bits.AD12B = 1;  // Operación ADC de 12 bits
+    AD1CON1bits.FORM = 3;   // Formato de salida de datos: fraccional con signo (formato Q15)
+    AD1CON1bits.SSRC = 4;   // El temporizador GP (Timer5 para ADC1, Timer3 para ADC2) compara, finaliza 
+                            // el muestreo e inicia la conversión
+    AD1CON1bits.ASAM = 1;   // Control de muestras ADC: el muestreo comienza inmediatamente después de la
+                            // conversión
+    AD1CON1bits.AD12B = 1;  // Operación ADC de 12 bits
 
-        AD1CON2bits.VCFG = 0;   // Referencia de voltaje del convertidor
-                                // VREFH = AVDD,  VREFL = AVSS
+    AD1CON2bits.VCFG = 0;   // Referencia de voltaje del convertidor
+                            // VREFH = AVDD,  VREFL = AVSS
 
-        AD1CON2bits.CHPS = 0;   // Convierte canale CH0 solamente
+    AD1CON2bits.CHPS = 0;   // Convierte canale CH0 solamente
 
-        AD1CON3bits.ADRC = 0;   // ADC Clock se deriva de Systems Clock
-        AD1CON3bits.SAMC = 5;   // Tiempo de muestreo automático = 5 * TAD
-        AD1CON3bits.ADCS = 9;   // Clock de conversión ADC: TAD = TCY * (ADCS + 1) = (1 / 40M) * 10 =
-                                // 250 ns (4 MHz)
-                                // Tiempo de conversión de ADC para Tconv de 12 bits = 14 * TAD = 3,5us (0,286 MHz)
+    AD1CON3bits.ADRC = 0;   // ADC Clock se deriva de Systems Clock
+    AD1CON3bits.SAMC = 5;   // Tiempo de muestreo automático = 5 * TAD
+    AD1CON3bits.ADCS = 9;   // Clock de conversión ADC: TAD = TCY * (ADCS + 1) = (1 / 40M) * 10 =
+                            // 250 ns (4 MHz)
+                            // Tiempo de conversión de ADC para Tconv de 12 bits = 14 * TAD = 3,5us (0,286 MHz)
 
-        AD1CON2bits.SMPI = 0;         // SMPI debe ser 0 (un incremento por muestra ?)
+    AD1CON2bits.SMPI = 0;         // SMPI debe ser 0 (un incremento por muestra ?)
 
-        //AD1CHS0/AD1CHS123: Registro de selección de entrada analógica-digital
-        AD1CHS0bits.CH0SA = 0;        // Selección de entrada MUXA +ve (AIN0) para CH0
-        AD1CHS0bits.CH0NA = 0;        // Selección de entrada MUXA -ve (VREF-) para CH0
+    //AD1CHS0/AD1CHS123: Registro de selección de entrada analógica-digital
+    AD1CHS0bits.CH0SA = 0;        // Selección de entrada MUXA +ve (AIN0) para CH0
+    AD1CHS0bits.CH0NA = 0;        // Selección de entrada MUXA -ve (VREF-) para CH0
 
-        //AD1PCFGH/AD1PCFGL: Registro de configuración de puerto
-        AD1PCFGL = 0xFFFF;
-        //AD1PCFGH = 0xFFFF;
-        AD1PCFGLbits.PCFG0 = 0;   // AN0 como entrada analógica
-        //IFS0bits.AD1IF = 0;       // Borra el bit del indicador de interrupción analógico-digital
-        //IEC0bits.AD1IE = 0;       // No habilita la interrupción analógico-digital
-        AD1CON1bits.ADON = 1;     // Enciende el ADC
+    //AD1PCFGH/AD1PCFGL: Registro de configuración de puerto
+    AD1PCFGL = 0xFFFF;
+    //AD1PCFGH = 0xFFFF;
+    AD1PCFGLbits.PCFG0 = 0;   // AN0 como entrada analógica
+    //IFS0bits.AD1IF = 0;       // Borra el bit del indicador de interrupción analógico-digital
+    //IEC0bits.AD1IE = 0;       // No habilita la interrupción analógico-digital
+    AD1CON1bits.ADON = 1;     // Enciende el ADC
 }
 
 /* Funcion para configurar el DMA canal 1 */
@@ -190,3 +241,26 @@ void ConfigDMA2(void)
   
 }
 
+/* Función para inicializar el puerto serie */
+
+void ConfigUART(void)
+{
+    U1MODEbits.STSEL = 0;       // 1 Bit de stop
+    U1MODEbits.PDSEL = 0;       // Sin paridad, 8 bits de datos
+    U1MODEbits.ABAUD = 0;       // Auto-Baud deshabilitado
+    U1MODEbits.BRGH = 0;        // Modo de velocidad estándar
+
+    U1BRG = BRGVAL;             // Velocidad en baudios de 9600
+
+    U1STAbits.URXISEL = 0;      // Interrumpción después de recibir un carácter RX
+
+    IEC0bits.U1RXIE = 1;        // Habilita la interrupción
+
+    // Remapeo de pines
+    RPINR18bits.U1RXR = 5;      // Mapea el pin RP5 al RX de la UART
+    RPOR3bits.RP6R = 3;         // Mapea el pin RP6 al TX de la UART
+
+    U1MODEbits.UARTEN = 1;      // Habilita UART
+    U1STAbits.UTXEN = 1;        // Habilita la transmisión UART
+
+}
