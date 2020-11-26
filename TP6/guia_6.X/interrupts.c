@@ -44,8 +44,11 @@ extern fractional prueba[32];
 
 extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
 extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
-extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
-extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
+//extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
+//extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
+extern fractional ADC_BufferA[32]__attribute__((space(dma)));
+extern fractional ADC_BufferB[32]__attribute__((space(dma)));
+
 
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
@@ -163,8 +166,10 @@ void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
 
     #if F_FIR
         // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
-        if(DMACS1bits.PPST2)                               
+        if(DMACS1bits.PPST2) {                               
             FIR(32, temp, (fractional *)ADC_BufferA, &filtro);
+            //LATBbits.LATB3 = ~LATBbits.LATB3;
+        }
         else
             FIR(32, temp, (fractional *)ADC_BufferB, &filtro);
     #endif
@@ -237,8 +242,10 @@ void __attribute__((interrupt, no_auto_psv))_DMA1Interrupt(void)
 
     #if F_FIR
         // Verifica cual banco de memoria RAM esta empleando el DMA1, A -> 0 o el B -> 1
-        if(DMACS1bits.PPST1)
+        if(DMACS1bits.PPST1) {
             VectorCopy(32, (fractional *) DAC_BufferA, temp);
+            LATBbits.LATB3 = 1;
+        }
         else
             VectorCopy(32, (fractional *) DAC_BufferB, temp); 
     #endif
@@ -252,7 +259,7 @@ void __attribute__((interrupt, no_auto_psv))_DMA1Interrupt(void)
 }
 
 /* Codigo que se ejecuta con la interrupcion _U1RXInterrupt (RX UART) */
-void __attribute__((interrupt,auto_psv)) _U1RXInterrupt(void)               
+void __attribute__((interrupt,auto_psv))_U1RXInterrupt(void)               
 {
     char rxchar;
     IFS0bits.U1RXIF = 0;                // Clear U1RX Interrupt Flag
@@ -289,7 +296,7 @@ void __attribute__((interrupt,auto_psv)) _U1RXInterrupt(void)
 }
 
 /* Codigo que se ejecuta con la interrupcion _U1TXInterrupt (TX UART) */
-void __attribute__((interrupt,auto_psv)) _U1TXInterrupt(void)               
+void __attribute__((interrupt,auto_psv))_U1TXInterrupt(void)               
 {
     IFS0bits.U1TXIF = 0;                // Clear TX Interrupt flag
     if (bit_tx < 35) {

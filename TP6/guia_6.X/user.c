@@ -41,8 +41,10 @@ extern fractcomplex giro[16]__attribute__((space(xmemory), aligned(64)));
 
 extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
 extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
-extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
-extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
+//extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
+//extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
+extern fractional ADC_BufferA[32]__attribute__((space(dma)));
+extern fractional ADC_BufferB[32]__attribute__((space(dma)));
 
 
 /******************************************************************************/
@@ -158,8 +160,8 @@ void ConfigDAC(void)
     DAC1CONbits.AMPON = 0;   /* El amplificador está desactivado durante los modos de suspensión/inactividad */
     DAC1CONbits.DACFDIV = 15;/* Dividir el reloj por 16 (f_vco=160MHz=> 160MHz/256/16 = 39062.5 Hz) */    
     DAC1CONbits.FORM = 1;    /* Formato de datos con signo */
-    DAC1CONbits.DACEN = 1;   /* Módulo DAC1 habilitado */    
     DAC1CONbits.FORM = 1;    /* Formato de datos con signo */
+    DAC1CONbits.DACEN = 1;   /* Módulo DAC1 habilitado */    
 
     ACLKCONbits.APSTSCLR = 0b111;/* bits del Clock auxiliar de salida = 0b111 -> divide por 1 */
 
@@ -241,8 +243,8 @@ void ConfigDMA2(void)
     DMA2CNT = 31;            /* Solicitud de 32 DMA */
     DMA2REQ = 13;            /* Selecciona ADC1 */
 
-    DMA2STA = __builtin_dmaoffset(ADC_BufferB);                                                    
-    DMA2STB = __builtin_dmaoffset(ADC_BufferA);                                                    
+    DMA2STA = __builtin_dmaoffset(ADC_BufferA);                                                    
+    DMA2STB = __builtin_dmaoffset(ADC_BufferB);                                                    
 
     IFS1bits.DMA2IF = 0;     /* Borra el flag de interrupción de DMA */
     IEC1bits.DMA2IE = 1;     /* Habilita el bit de interrupción de DMA */
