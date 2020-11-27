@@ -41,10 +41,8 @@ extern fractcomplex giro[16]__attribute__((space(xmemory), aligned(64)));
 
 extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
 extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
-//extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
-//extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
-extern fractional ADC_BufferA[32]__attribute__((space(dma)));
-extern fractional ADC_BufferB[32]__attribute__((space(dma)));
+extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
+extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
 
 
 /******************************************************************************/
@@ -75,7 +73,6 @@ void InitApp(void)
         ConfigUART_TX();
         /* Esperar al menos 105us antes de enviar el primer caracter */
         DELAY_105uS
-        //U1TXREG = 'a';
     #endif
     ConfigTimer5();
     ConfigDAC();
@@ -127,6 +124,7 @@ void Filtro_IIR(void)
     IIRTransposedInit(&filtro_pband);
 }
 
+
 /* Funcion para inicializar el Timer5 */
 void ConfigTimer5(void)
 {
@@ -159,7 +157,6 @@ void ConfigDAC(void)
 
     DAC1CONbits.AMPON = 0;   /* El amplificador está desactivado durante los modos de suspensión/inactividad */
     DAC1CONbits.DACFDIV = 15;/* Dividir el reloj por 16 (f_vco=160MHz=> 160MHz/256/16 = 39062.5 Hz) */    
-    DAC1CONbits.FORM = 1;    /* Formato de datos con signo */
     DAC1CONbits.FORM = 1;    /* Formato de datos con signo */
     DAC1CONbits.DACEN = 1;   /* Módulo DAC1 habilitado */    
 
@@ -205,6 +202,7 @@ void ConfigADC(void)
     //IEC0bits.AD1IE = 0;       // No habilita la interrupción analógico-digital
     AD1CON1bits.ADON = 1;     // Enciende el ADC
 }
+
 
 /* Funcion para configurar el DMA canal 1 para el DAC canal izq*/
 void ConfigDMA1(void)
@@ -253,6 +251,7 @@ void ConfigDMA2(void)
   
 }
 
+
 /* Función para inicializar el puerto serie para RX */
 void ConfigUART(void)
 {
@@ -274,6 +273,7 @@ void ConfigUART(void)
     U1MODEbits.UARTEN = 1;      // Habilita UART
     U1STAbits.UTXEN = 1;        // Habilita la transmisión UART
 }
+
 
 /* Función para inicializar el puerto serie para TX */
 void ConfigUART_TX(void)

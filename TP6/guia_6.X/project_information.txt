@@ -6,6 +6,12 @@ Trabajo Practico no. 6
     Sebastián Cueva Bono  - leg. 56016
     Darío Gustavo Albarrán  - leg. 43143
 
+Elegir en user.h el ejercicio:
+
+#define F_FIR false
+#define F_IIR false
+#define T_FFT true  <----
+--------------------------------------------------------------------------------
 
 FILES INCLUDED IN THE PROJECT TREE:
 

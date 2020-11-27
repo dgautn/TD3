@@ -135,10 +135,8 @@ fractional prueba[32] = {
 /* ---------------------------------------------------------------------------*/
 unsigned int DAC_BufferA[32]__attribute__((space(dma))) = {0}; 
 unsigned int DAC_BufferB[32]__attribute__((space(dma))) = {0};
-//unsigned int ADC_BufferA[32]__attribute__((space(dma)));
-//unsigned int ADC_BufferB[32]__attribute__((space(dma)));
-fractional ADC_BufferA[32]__attribute__((space(dma)));
-fractional ADC_BufferB[32]__attribute__((space(dma)));
+unsigned int ADC_BufferA[32]__attribute__((space(dma)));
+unsigned int ADC_BufferB[32]__attribute__((space(dma)));
 
 
 /******************************************************************************/

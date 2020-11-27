@@ -40,14 +40,13 @@ extern fractional temp_fft[32];
 extern fractional frame_tx[35];
 extern int cnt;
 extern int bit_tx;
+
 extern fractional prueba[32];
 
 extern unsigned int DAC_BufferA[32]__attribute__((space(dma)));
 extern unsigned int DAC_BufferB[32]__attribute__((space(dma)));
-//extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
-//extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
-extern fractional ADC_BufferA[32]__attribute__((space(dma)));
-extern fractional ADC_BufferB[32]__attribute__((space(dma)));
+extern unsigned int ADC_BufferA[32]__attribute__((space(dma)));
+extern unsigned int ADC_BufferB[32]__attribute__((space(dma)));
 
 
 /******************************************************************************/
@@ -166,10 +165,8 @@ void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
 
     #if F_FIR
         // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
-        if(DMACS1bits.PPST2) {                               
+        if(DMACS1bits.PPST2)                                
             FIR(32, temp, (fractional *)ADC_BufferA, &filtro);
-            //LATBbits.LATB3 = ~LATBbits.LATB3;
-        }
         else
             FIR(32, temp, (fractional *)ADC_BufferB, &filtro);
     #endif
@@ -198,13 +195,8 @@ void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
         if (cnt == F_MUEST) {
             // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
             if(DMACS1bits.PPST2) 
-            //{
-            //    LATBbits.LATB3 = ~LATBbits.LATB3;
-            //    VectorCopy(32, temp_fft, prueba);
-            //}
                 VectorCopy(32, temp_fft, (fractional *) DAC_BufferA);
             else
-                //VectorCopy(32, temp_fft, prueba);
                 VectorCopy(32, temp_fft, (fractional *) DAC_BufferB);
             for (n=0;n<32;n++) {
                 origen[n].real = temp_fft[n];
@@ -242,10 +234,8 @@ void __attribute__((interrupt, no_auto_psv))_DMA1Interrupt(void)
 
     #if F_FIR
         // Verifica cual banco de memoria RAM esta empleando el DMA1, A -> 0 o el B -> 1
-        if(DMACS1bits.PPST1) {
+        if(DMACS1bits.PPST1) 
             VectorCopy(32, (fractional *) DAC_BufferA, temp);
-            LATBbits.LATB3 = 1;
-        }
         else
             VectorCopy(32, (fractional *) DAC_BufferB, temp); 
     #endif
