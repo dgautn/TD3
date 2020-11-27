@@ -74,19 +74,19 @@ fractional temp[32];
 /* --------------------------- Filtro FIR ------------------------------------*/
 IIRTransposedStruct filtro_pb, filtro_pa, filtro_pband;
 //coeficioentes de los filtros
-fractional coeffs_pb[20]__attribute__((space(xmemory))) = {
-    0x004f,0x009e,0x73a7,0x004f,0xcb19,
-    0x004f,0x009e,0x73a7,0x004f,0xcb19,
-    0x004f,0x009e,0x73a7,0x004f,0xcb19,
-    0x004f,0x009e,0x73a7,0x004f,0xcb19
-};
-fractional coeffs_pa[20]__attribute__((space(xmemory))) = {
+fractional coeffs_pb[5]__attribute__((space(xmemory), aligned(16))) = {
+    0x004f,0x009e,0x73a7,0x004f,0xcb19};//,
+    //0x004f,0x009e,0x73a7,0x004f,0xcb19,
+    //0x004f,0x009e,0x73a7,0x004f,0xcb19,
+    //0x004f,0x009e,0x73a7,0x004f,0xcb19
+//};
+fractional coeffs_pa[20]__attribute__((space(xmemory), aligned(64))) = {
     0x34f8,0x9610,0x6935,0x34f8,0xd2e1,
     0x34f8,0x9610,0x6935,0x34f8,0xd2e1,
     0x34f8,0x9610,0x6935,0x34f8,0xd2e1,
     0x34f8,0x9610,0x6935,0x34f8,0xd2e1
 };
-fractional coeffs_pband[40]__attribute__((space(xmemory))) = {
+fractional coeffs_pband[40]__attribute__((space(xmemory), aligned(128))) = {
     0x3cc2,0x867c,0x7ace,0x3cc2,0xc4f6,
     0x3cc2,0x867c,0x7ace,0x3cc2,0xc4f6,
     0x3cc2,0x867c,0x7ace,0x3cc2,0xc4f6,
@@ -132,6 +132,9 @@ fractional prueba[32] = {
     0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000,0x2000
 };
 
+fractional vector[64] = {0x0};
+
+fractional impulso[64] = {0x0};
 /* ---------------------------------------------------------------------------*/
 unsigned int DAC_BufferA[32]__attribute__((space(dma))) = {0}; 
 unsigned int DAC_BufferB[32]__attribute__((space(dma))) = {0};
@@ -154,8 +157,12 @@ int16_t main(void)
 
     /* TODO <INSERT USER APPLICATION CODE HERE> */
     //int n = 0;
+    impulso[0] = 0x7FFF;
+    IIRTransposed(64, vector, impulso, &filtro_pb);
+    //impulso[0] = 0x7FFF;
     while(1)
     {
+        vector[0] = vector[0];
         LATBbits.LATB2 = PORTBbits.RB7; // Enciende led1 si se pulsa boton1
         //VectorCopy(32, temp_fft, prueba);
         //for (n=0;n<32;n++) {

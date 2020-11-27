@@ -166,9 +166,17 @@ void __attribute__((interrupt, no_auto_psv))_DMA2Interrupt(void)
     #if F_FIR
         // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
         if(DMACS1bits.PPST2)                                
-            FIR(32, temp, (fractional *)ADC_BufferA, &filtro);
+//            FIR(32, temp, (fractional *)ADC_BufferA, &filtro);
+            VectorCopy(32,temp, (fractional *)ADC_BufferA);
         else
-            FIR(32, temp, (fractional *)ADC_BufferB, &filtro);
+//            FIR(32, temp, (fractional *)ADC_BufferB, &filtro);
+            VectorCopy(32,temp, (fractional *)ADC_BufferB);
+        VectorScale(32,temp,temp,5);
+        // Verifica cual banco de memoria RAM esta empleando el DMA1, A -> 0 o el B -> 1
+        if(DMACS1bits.PPST1) 
+            VectorCopy(32, (fractional *)DAC_BufferA, temp);
+        else
+            VectorCopy(32, (fractional *)DAC_BufferB, temp); 
     #endif
     #if F_IIR
         // Verifica cual banco de memoria RAM esta empleando el DMA2, A -> 0 o el B -> 1
@@ -232,7 +240,7 @@ void __attribute__((interrupt, no_auto_psv))_DMA1Interrupt(void)
 {
     IFS0bits.DMA1IF = 0; // Borra el Flag de interrupcion del DMA Canal 1
 
-    #if F_FIR
+    #if 0 //F_FIR
         // Verifica cual banco de memoria RAM esta empleando el DMA1, A -> 0 o el B -> 1
         if(DMACS1bits.PPST1) 
             VectorCopy(32, (fractional *) DAC_BufferA, temp);
@@ -295,3 +303,11 @@ void __attribute__((interrupt,auto_psv))_U1TXInterrupt(void)
     }
         else bit_tx = 1;
 }
+
+
+void __attribute__((interrupt,auto_psv)) _T5Interrupt(void)               
+{
+    IFS1bits.T5IF = 0;        // Clear Timer5 Interrupt Flag
+    LATCbits.LATC3 = ~LATCbits.LATC3; // Cambia el estado del pin D0
+}
+

@@ -7,8 +7,8 @@
 /* Seleccion de ejercicio */
 /**************************/
 #define F_FIR false
-#define F_IIR false
-#define T_FFT true
+#define F_IIR true
+#define T_FFT false
 
 // Constantes para el filtro FIR
 #define ALIGNED 1024

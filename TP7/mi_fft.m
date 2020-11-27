@@ -5,7 +5,7 @@ pkg load signal; % para bitrevorder
 
 N = length(x); % Tamaño del vector de entrada
 k = [0 : N/2-1]; % Vector para los exponenciales complejos 
-tfv = exp(-1i*2*pi*k/N); % Vector con los factores de giro
+tfv = exp(-1i*2*pi*k/N) % Vector con los factores de giro
 y = bitrevorder(x); % Reordenamiento del vector de entrada
 
 for step = 2.^(0:log2(N/2)) % Recorre las etapas

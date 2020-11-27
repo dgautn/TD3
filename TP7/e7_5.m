@@ -6,7 +6,8 @@ close all; % cierra las ventanas de imagen
 
 L=1e5;          % Longitud de la simulacion
 N=31;           % Tamaño del filtro de ecualizacion
-mu=1e-4;        % Velocidad de adaptacion
+%mu=1e-4;        % Velocidad de adaptacion
+mu=0.012;        % Velocidad de adaptacion
 sigma=0.01;      % Ruido
 
 %% Inicializacion de vectores

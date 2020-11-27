@@ -59,6 +59,7 @@ void InitApp(void)
     TRISBbits.TRISB2 = 0;   /* led1 */
     TRISBbits.TRISB3 = 0;   /* led2 */
     TRISBbits.TRISB7 = 1;   /* boton1 */
+    TRISCbits.TRISC3 = 0;   /* para pruebas */
 
     /* Initialize peripherals */
     #if F_FIR 
@@ -75,10 +76,10 @@ void InitApp(void)
         DELAY_105uS
     #endif
     ConfigTimer5();
-    ConfigDAC();
-    ConfigADC();
     ConfigDMA1();
     ConfigDMA2();
+    ConfigDAC();
+    ConfigADC();
 }
 
 /* Funcion para cargar el filtro FIR */
@@ -99,7 +100,7 @@ void Filtro_FIR(void)
 /* Funcion para cargar los filtros IIR */
 void Filtro_IIR(void)
 {
-    filtro_pb.numSectionsLess1 = 3;    // Número de secciones menos 1
+    filtro_pb.numSectionsLess1 = 0;    // Número de secciones menos 1
     filtro_pb.coeffsBase = &coeffs_pb[0]; // Dirección de inicio del vector de coeficientes
     filtro_pb.coeffsPage = 0xFF00;     // Página del vector de coeficientes (0xFF00 para RAM)
     filtro_pb.delayBase1 = &delay1_pb[0]; // Dirección del vector de retardos 1
@@ -139,7 +140,7 @@ void ConfigTimer5(void)
     IFS1bits.T5IF = 0;      // Borra la bandera de la interrupción del Timer5
     IEC1bits.T5IE = 0;      // No Habilita la interrupción del Timer5
     // Prueba de velocidad
-    //IEC1bits.T5IE = 1;      // Habilita la interrupción del Timer5
+    IEC1bits.T5IE = 1;      // Habilita la interrupción del Timer5
 
     T5CONbits.TON = 1;      // Inicia el temporizador de 16 bits
 }
